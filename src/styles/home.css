@@ -427,7 +427,7 @@ header.nav.nav-menu-open .nav-inner {
 
 .hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   min-height: inherit;
   align-items: stretch;
 }
@@ -436,10 +436,10 @@ header.nav.nav-menu-open .nav-inner {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 120px 40px 64px clamp(28px, 5vw, 72px);
+  padding: 120px 28px 64px clamp(28px, 5vw, 72px);
   color: var(--cream);
   position: relative;
-  z-index: 1;
+  z-index: 2;
   background: var(--forest);
 }
 
@@ -504,8 +504,40 @@ header.nav.nav-menu-open .nav-inner {
   position: relative;
   min-height: 100%;
   overflow: hidden;
-  background: #e7dfd2;
-  z-index: 0;
+  background: var(--forest);
+  z-index: 1;
+  margin-left: -64px;
+}
+
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    var(--forest) 0%,
+    rgba(11, 61, 46, 0.92) 10%,
+    rgba(11, 61, 46, 0.55) 24%,
+    rgba(11, 61, 46, 0.18) 40%,
+    transparent 58%
+  );
+}
+
+.hero-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 61, 46, 0.12) 0%,
+    transparent 28%,
+    transparent 72%,
+    rgba(11, 61, 46, 0.18) 100%
+  );
 }
 
 .hero-image {
@@ -513,7 +545,7 @@ header.nav.nav-menu-open .nav-inner {
   height: 100%;
   min-height: min(100vh, 760px);
   object-fit: cover;
-  object-position: center top;
+  object-position: 58% top;
   display: block;
 }
 
@@ -1697,10 +1729,21 @@ footer {
   .hero-visual {
     min-height: 420px;
     order: -1;
+    margin-left: 0;
+  }
+
+  .hero-visual::before {
+    background: linear-gradient(
+      180deg,
+      transparent 55%,
+      rgba(11, 61, 46, 0.45) 78%,
+      var(--forest) 100%
+    );
   }
 
   .hero-image {
     min-height: 420px;
+    object-position: center top;
   }
 
   .hero-copy {
