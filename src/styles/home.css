@@ -1688,6 +1688,22 @@ footer {
     width: 96px;
     height: 96px;
   }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    min-height: 420px;
+  }
+
+  .hero-copy {
+    padding: 48px 32px 56px;
+  }
+
+  .menu-grid {
+    gap: 12px 28px;
+  }
 }
 
 @media (max-width: 768px) {
