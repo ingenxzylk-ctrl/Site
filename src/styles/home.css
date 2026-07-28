@@ -506,37 +506,22 @@ header.nav.nav-menu-open .nav-inner {
   overflow: hidden;
   background: var(--forest);
   z-index: 1;
-  margin-left: -64px;
+  margin-left: -48px;
 }
 
 .hero-visual::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 0 auto 0 0;
+  width: min(42%, 280px);
   z-index: 2;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     var(--forest) 0%,
-    rgba(11, 61, 46, 0.92) 10%,
-    rgba(11, 61, 46, 0.55) 24%,
-    rgba(11, 61, 46, 0.18) 40%,
-    transparent 58%
-  );
-}
-
-.hero-visual::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(11, 61, 46, 0.12) 0%,
-    transparent 28%,
-    transparent 72%,
-    rgba(11, 61, 46, 0.18) 100%
+    rgba(11, 61, 46, 0.88) 28%,
+    rgba(11, 61, 46, 0.4) 62%,
+    transparent 100%
   );
 }
 
@@ -545,7 +530,7 @@ header.nav.nav-menu-open .nav-inner {
   height: 100%;
   min-height: min(100vh, 760px);
   object-fit: cover;
-  object-position: 58% top;
+  object-position: 72% top;
   display: block;
 }
 
@@ -1733,10 +1718,12 @@ footer {
   }
 
   .hero-visual::before {
+    inset: 0;
+    width: auto;
     background: linear-gradient(
       180deg,
-      transparent 55%,
-      rgba(11, 61, 46, 0.45) 78%,
+      transparent 58%,
+      rgba(11, 61, 46, 0.35) 82%,
       var(--forest) 100%
     );
   }
