@@ -417,8 +417,6 @@ header.nav.nav-menu-open .nav-inner {
 
 /* ===================== HERO ===================== */
 .hero {
-  --hero-beige: #e7dfd2;
-  --hero-sage: #3d6b55;
   position: relative;
   padding: 0;
   text-align: left;
@@ -434,16 +432,8 @@ header.nav.nav-menu-open .nav-inner {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(ellipse 55% 80% at 78% 45%, rgba(231, 223, 210, 0.55), transparent 70%),
-    linear-gradient(
-      105deg,
-      var(--forest) 0%,
-      var(--forest) 38%,
-      var(--hero-sage) 52%,
-      #8fa892 62%,
-      var(--hero-beige) 78%,
-      var(--hero-beige) 100%
-    );
+    radial-gradient(ellipse 70% 90% at 82% 48%, rgba(20, 107, 74, 0.28), transparent 62%),
+    var(--forest);
 }
 
 .hero-visual {
@@ -451,32 +441,19 @@ header.nav.nav-menu-open .nav-inner {
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(62%, 820px);
+  width: min(58%, 780px);
   z-index: 1;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.35) 14%,
-    rgba(0, 0, 0, 0.85) 32%,
-    #000 48%,
-    #000 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.35) 14%,
-    rgba(0, 0, 0, 0.85) 32%,
-    #000 48%,
-    #000 100%
-  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% top;
+  object-position: center top;
   display: block;
 }
 
@@ -500,7 +477,6 @@ header.nav.nav-menu-open .nav-inner {
   color: var(--cream);
   margin-bottom: 22px;
   letter-spacing: -0.01em;
-  text-shadow: 0 1px 18px rgba(11, 61, 46, 0.25);
 }
 
 .hero-copy .eyebrow {
@@ -515,7 +491,6 @@ header.nav.nav-menu-open .nav-inner {
   margin: 0 0 18px;
   letter-spacing: -0.01em;
   color: var(--cream);
-  text-shadow: 0 1px 18px rgba(11, 61, 46, 0.22);
 }
 
 .hero-headline em {
@@ -1733,44 +1708,18 @@ footer {
   }
 
   .hero-backdrop {
-    background:
-      linear-gradient(
-        180deg,
-        var(--hero-beige) 0%,
-        var(--hero-beige) 42%,
-        var(--hero-sage) 68%,
-        var(--forest) 100%
-      );
+    background: var(--forest);
   }
 
   .hero-visual {
     position: relative;
     width: 100%;
     height: 420px;
-    -webkit-mask-image: linear-gradient(
-      180deg,
-      #000 0%,
-      #000 58%,
-      rgba(0, 0, 0, 0.55) 78%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      180deg,
-      #000 0%,
-      #000 58%,
-      rgba(0, 0, 0, 0.55) 78%,
-      transparent 100%
-    );
-  }
-
-  .hero-image {
-    object-position: center top;
   }
 
   .hero-copy {
     width: 100%;
     padding: 28px 32px 56px;
-    margin-top: -72px;
   }
 
   .menu-grid {
@@ -1831,7 +1780,6 @@ footer {
 
   .hero-copy {
     padding: 20px 20px 48px;
-    margin-top: -56px;
   }
 
   .hero-brand {
