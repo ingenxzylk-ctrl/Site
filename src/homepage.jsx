@@ -328,25 +328,11 @@ const trustItems = [
   { icon: 'starOutline', num: '4.8/5', label: ' from 12,000+ users' },
 ]
 
-const menuColumns = [
-  [
-    { icon: 'dna', label: 'Root Causes', href: '#causes' },
-    { icon: 'kit', label: 'Inside Your Plan', href: '#offers' },
-    { icon: 'checkCircle', label: 'What To Expect', href: '#timeline' },
-    { icon: 'consult', label: 'Talk To A Human', href: '#chat' },
-  ],
-  [
-    { icon: 'bottle', label: 'All Products', href: '#products', arrow: true },
-    { icon: 'money', label: 'Money Back Policy', href: '#' },
-    { icon: 'refresh', label: 'Return Policy', href: '#' },
-    { icon: 'person', label: 'Our Story', href: '#' },
-    {
-      icon: 'mail',
-      label: 'care@zylkhealth.com',
-      href: 'mailto:care@zylkhealth.com',
-    },
-    { icon: 'phone', label: '+91 98765 43210', href: 'tel:+919876543210' },
-  ],
+const menuLinks = [
+  { icon: 'dna', label: 'Root Causes', href: '#causes' },
+  { icon: 'kit', label: 'Inside Your Plan', href: '#offers' },
+  { icon: 'checkCircle', label: 'What To Expect', href: '#timeline' },
+  { icon: 'consult', label: 'Talk To A Human', href: '#chat' },
 ]
 
 /* ---------- HELPERS ---------- */
@@ -487,65 +473,26 @@ export default function HomePage() {
         aria-hidden={!menuOpen}
       >
         <div className="menu-window-inner">
-          <div className="menu-grid">
-            {menuColumns.map((column, colIndex) => (
-              <div className="menu-col" key={colIndex}>
-                {column.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="menu-item"
-                    onClick={closeMenu}
-                  >
-                    <span className="menu-item-icon">
-                      <Icon name={item.icon} />
-                    </span>
-                    <span className="menu-item-text">{item.label}</span>
-                    {item.arrow ? (
-                      <Icon
-                        name="chevronRight"
-                        className="menu-arrow"
-                        strokeWidth={2}
-                      />
-                    ) : null}
-                  </a>
-                ))}
-
-                {colIndex === menuColumns.length - 1 ? (
-                  <div className="menu-download">
-                    <div className="menu-download-head">
-                      <span className="menu-item-icon">
-                        <Icon name="device" />
-                      </span>
-                      Download App
-                    </div>
-                    <div className="menu-store-row">
-                      <a href="#" className="menu-store-btn" onClick={closeMenu}>
-                        Google Play
-                      </a>
-                      <a href="#" className="menu-store-btn" onClick={closeMenu}>
-                        App Store
-                      </a>
-                    </div>
-                    <div className="menu-social">
-                      <a href="#" aria-label="YouTube" onClick={closeMenu}>
-                        <Icon name="youtube" />
-                      </a>
-                      <a href="#" aria-label="Instagram" onClick={closeMenu}>
-                        <Icon name="instagram" />
-                      </a>
-                      <a href="#" aria-label="Facebook" onClick={closeMenu}>
-                        <Icon name="facebook" />
-                      </a>
-                      <a href="#" aria-label="WhatsApp" onClick={closeMenu}>
-                        <Icon name="whatsapp" />
-                      </a>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
+          <nav className="menu-list" aria-label="Page sections">
+            {menuLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="menu-item"
+                onClick={closeMenu}
+              >
+                <span className="menu-item-icon">
+                  <Icon name={item.icon} />
+                </span>
+                <span className="menu-item-text">{item.label}</span>
+                <Icon
+                  name="chevronRight"
+                  className="menu-arrow"
+                  strokeWidth={2}
+                />
+              </a>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
       {menuOpen ? (
