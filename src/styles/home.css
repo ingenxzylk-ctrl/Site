@@ -579,9 +579,23 @@ header.nav.nav-menu-open .nav-inner {
   object-fit: contain;
   object-position: center bottom;
   display: block;
-  margin-bottom: -48px;
+  margin-bottom: -20px;
   background: transparent;
-  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.28));
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 78%,
+    rgba(0, 0, 0, 0.85) 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 78%,
+    rgba(0, 0, 0, 0.85) 90%,
+    transparent 100%
+  );
 }
 
 .trust-row {
@@ -1789,7 +1803,7 @@ footer {
 
   .hero-image {
     width: min(100%, 520px);
-    margin-bottom: -28px;
+    margin-bottom: -14px;
   }
 
   .hero-copy {
@@ -1873,7 +1887,7 @@ footer {
   .hero-image {
     width: 100%;
     height: auto;
-    margin-bottom: -22px;
+    margin-bottom: -10px;
   }
 
   .hero-copy {
