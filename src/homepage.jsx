@@ -336,23 +336,6 @@ const menuColumns = [
     { icon: 'consult', label: 'Talk To A Human', href: '#chat' },
   ],
   [
-    { icon: 'pencil', label: 'Re-Take The Assessment', href: '#assessment' },
-    { icon: 'kit', label: 'My Recommended Plan', href: '#offers' },
-    { icon: 'phone', label: 'Call Hair Coach', href: '#', badge: 'FREE' },
-    {
-      icon: 'whatsapp',
-      label: 'Chat on WhatsApp',
-      sub: '+91 98765 43210',
-      href: '#',
-    },
-    {
-      icon: 'flask',
-      label: 'Hair Science',
-      accordion: true,
-      children: [{ label: 'Research', href: '#' }],
-    },
-  ],
-  [
     { icon: 'bottle', label: 'All Products', href: '#products', arrow: true },
     { icon: 'money', label: 'Money Back Policy', href: '#' },
     { icon: 'refresh', label: 'Return Policy', href: '#' },
@@ -413,7 +396,6 @@ export default function HomePage() {
   const [showSticky, setShowSticky] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [navScrolled, setNavScrolled] = useState(false)
-  const [scienceOpen, setScienceOpen] = useState(true)
   const productsScrollRef = useRef(null)
 
   const timelineData = timelineMode === 'male' ? timelineMale : timelineFemale
@@ -508,71 +490,28 @@ export default function HomePage() {
           <div className="menu-grid">
             {menuColumns.map((column, colIndex) => (
               <div className="menu-col" key={colIndex}>
-                {column.map((item) =>
-                  item.accordion ? (
-                    <div
-                      className={`menu-item menu-accordion${scienceOpen ? ' open' : ''}`}
-                      key={item.label}
-                    >
-                      <button
-                        type="button"
-                        className="menu-item-btn"
-                        onClick={() => setScienceOpen((open) => !open)}
-                      >
-                        <span className="menu-item-icon">
-                          <Icon name={item.icon} />
-                        </span>
-                        <span className="menu-item-text">{item.label}</span>
-                        <Icon
-                          name="caret"
-                          className="menu-accordion-caret"
-                          strokeWidth={2}
-                        />
-                      </button>
-                      {scienceOpen
-                        ? item.children.map((child) => (
-                            <a
-                              key={child.label}
-                              href={child.href}
-                              className="menu-sublink"
-                              onClick={closeMenu}
-                            >
-                              {child.label}
-                            </a>
-                          ))
-                        : null}
-                    </div>
-                  ) : (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="menu-item"
-                      onClick={closeMenu}
-                    >
-                      <span className="menu-item-icon">
-                        <Icon name={item.icon} />
-                      </span>
-                      <span className="menu-item-text">
-                        {item.label}
-                        {item.sub ? (
-                          <span className="menu-item-sub">{item.sub}</span>
-                        ) : null}
-                      </span>
-                      {item.badge ? (
-                        <span className="menu-badge">{item.badge}</span>
-                      ) : null}
-                      {item.arrow ? (
-                        <Icon
-                          name="chevronRight"
-                          className="menu-arrow"
-                          strokeWidth={2}
-                        />
-                      ) : null}
-                    </a>
-                  ),
-                )}
+                {column.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="menu-item"
+                    onClick={closeMenu}
+                  >
+                    <span className="menu-item-icon">
+                      <Icon name={item.icon} />
+                    </span>
+                    <span className="menu-item-text">{item.label}</span>
+                    {item.arrow ? (
+                      <Icon
+                        name="chevronRight"
+                        className="menu-arrow"
+                        strokeWidth={2}
+                      />
+                    ) : null}
+                  </a>
+                ))}
 
-                {colIndex === 2 ? (
+                {colIndex === menuColumns.length - 1 ? (
                   <div className="menu-download">
                     <div className="menu-download-head">
                       <span className="menu-item-icon">
