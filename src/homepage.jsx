@@ -583,43 +583,48 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="hero">
-        <div className="hero-layout">
-          <div className="hero-copy">
-            <p className="hero-brand">Zylk Health</p>
-            <span className="eyebrow">AI Scalp Assessment</span>
-            <h1 className="hero-headline">
-              Why are you losing hair? <em>Find out</em> in 2 minutes.
-            </h1>
-            <p className="hero-sub">
-              Answer a few questions, upload a scalp photo, and our AI maps the
-              real cause behind your hair fall — before a doctor ever writes your
-              plan.
-            </p>
-            <div className="hero-cta-row">
-              <a href="#assessment" className="btn btn-primary">
-                Take the Free Assessment
-              </a>
+        <div className="hero-shell">
+          <div className="hero-curve">
+            <div className="hero-copy">
+              <p className="hero-brand">Zylk Health</p>
+              <span className="hero-badge">AI Scalp Assessment</span>
+              <h1 className="hero-headline">
+                Why are you losing hair? <em>Find out</em> in 2 minutes.
+              </h1>
+              <p className="hero-sub">
+                Answer a few questions, upload a scalp photo, and our AI maps the
+                real cause behind your hair fall — before a doctor ever writes your
+                plan.
+              </p>
+              <div className="hero-cta-row">
+                <a href="#assessment" className="btn btn-primary">
+                  Take the Free Assessment
+                </a>
+                <a href="#products" className="btn btn-secondary">
+                  Explore Hair Plans
+                </a>
+              </div>
             </div>
-            <div className="trust-row">
-              {trustItems.map((item) => (
-                <div className="trust-chip" key={item.num}>
-                  <span className="icon-badge">
-                    <Icon name={item.icon} strokeWidth={2} />
-                  </span>
-                  <span>
-                    <span className="num">{item.num}</span>
-                    <span className="label">{item.label}</span>
-                  </span>
-                </div>
-              ))}
+            <div className="hero-visual">
+              <img
+                src={heroCouple}
+                alt="Couple with healthy hair smiling"
+                className="hero-image"
+              />
             </div>
           </div>
-          <div className="hero-visual">
-            <img
-              src={heroCouple}
-              alt="Couple with healthy hair smiling"
-              className="hero-image"
-            />
+          <div className="trust-row">
+            {trustItems.map((item) => (
+              <div className="trust-chip" key={item.num}>
+                <span className="icon-badge">
+                  <Icon name={item.icon} strokeWidth={2} />
+                </span>
+                <span>
+                  <span className="num">{item.num}</span>
+                  <span className="label">{item.label}</span>
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
