@@ -4,8 +4,8 @@ React frontend for Zylk Health — AI-powered scalp assessments and doctor-revie
 
 ## Stack
 
-- React 19 + TypeScript
-- Vite
+- React 19 + Vite
+- Homepage lives in a single file: `src/homepage.jsx`
 
 ## Getting started
 
@@ -29,12 +29,8 @@ Open the local URL Vite prints (usually `http://localhost:5173`).
 
 ```
 src/
-  components/
-    home/          # Homepage sections (Nav, Hero, Causes, Products, …)
-    Icon.tsx       # Shared SVG icons
-    Reveal.tsx     # Scroll-reveal wrapper
-  data/home.ts     # Homepage content and product data
-  styles/home.css  # Homepage styles
-  App.tsx
+  homepage.jsx       # Full homepage (sections, data, icons, interactions)
+  styles/home.css    # Homepage styles
+  App.tsx            # Renders <HomePage />
   main.tsx
 ```
