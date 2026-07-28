@@ -64,6 +64,27 @@ const icons = {
     '<rect x="2" y="5" width="20" height="14" rx="4"/><polygon points="10 9 15 12 10 15" fill="currentColor" stroke="none"/>',
   linkedin:
     '<rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="16"/><circle cx="8" cy="7" r=".5" fill="currentColor"/><path d="M12 16v-3.5a2 2 0 0 1 4 0V16"/>',
+  close:
+    '<line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>',
+  phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/>',
+  pencil:
+    '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>',
+  flask:
+    '<path d="M9 3h6"/><path d="M10 3v6l-5.2 8.3A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-3.7L14 9V3"/>',
+  heartChat:
+    '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 8.2c-.8-1-2.5-.7-2.5.8 0 1.4 2.5 2.8 2.5 2.8s2.5-1.4 2.5-2.8c0-1.5-1.7-1.8-2.5-.8z"/>',
+  device:
+    '<rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/>',
+  money:
+    '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 10v4M18 10v4"/>',
+  refresh:
+    '<polyline points="23 4 23 10 17 10"/><path d="M20.5 15a8 8 0 1 1-1.7-7.5L23 10"/>',
+  mail:
+    '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/>',
+  facebook:
+    '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  caret:
+    '<polyline points="6 9 12 15 18 9"/>',
 }
 
 function Icon({ name, className, strokeWidth = 1.6 }) {
@@ -307,6 +328,64 @@ const trustItems = [
   { icon: 'starOutline', num: '4.8/5', label: ' from 12,000+ users' },
 ]
 
+const navLinks = [
+  { label: 'Home', href: '#' },
+  { label: 'Shop All', href: '#products' },
+  {
+    label: 'Shop By Concern',
+    href: '#products',
+    children: [
+      { label: 'Hair Growth', href: '#products' },
+      { label: 'Hair Loss', href: '#products' },
+      { label: 'Dandruff', href: '#products' },
+    ],
+  },
+  {
+    label: 'Shop By Root Cause',
+    href: '#causes',
+    children: [
+      { label: 'Genetics', href: '#causes' },
+      { label: 'Stress', href: '#causes' },
+      { label: 'Nutrition', href: '#causes' },
+      { label: 'Gut Issues', href: '#causes' },
+    ],
+  },
+  { label: 'Blog', href: '#' },
+]
+
+const menuColumns = [
+  [
+    { icon: 'pencil', label: 'Re-Take The Assessment', href: '#assessment' },
+    { icon: 'kit', label: 'My Recommended Plan', href: '#offers' },
+    { icon: 'phone', label: 'Call Hair Coach', href: '#', badge: 'FREE' },
+    {
+      icon: 'whatsapp',
+      label: 'Chat on WhatsApp',
+      sub: '+91 98765 43210',
+      href: '#',
+    },
+    {
+      icon: 'flask',
+      label: 'Hair Science',
+      accordion: true,
+      children: [{ label: 'Research', href: '#' }],
+    },
+  ],
+  [
+    { icon: 'heartChat', label: 'Customer Stories', href: '#timeline' },
+    { icon: 'device', label: 'Blogs', href: '#' },
+    { icon: 'kit', label: 'Zylk Combos', href: '#products' },
+    { icon: 'bottle', label: 'All Products', href: '#products', arrow: true },
+    { icon: 'money', label: 'Money Back Policy', href: '#' },
+    { icon: 'refresh', label: 'Return Policy', href: '#' },
+  ],
+  [
+    { icon: 'person', label: 'Our Story', href: '#' },
+    { icon: 'mail', label: 'care@zylkhealth.com', href: 'mailto:care@zylkhealth.com' },
+    { icon: 'phone', label: '+91 98765 43210', href: 'tel:+919876543210' },
+  ],
+]
+
 /* ---------- HELPERS ---------- */
 function Reveal({ children, className = '' }) {
   const ref = useRef(null)
@@ -352,6 +431,10 @@ export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [addedProduct, setAddedProduct] = useState(null)
   const [showSticky, setShowSticky] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [navScrolled, setNavScrolled] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState(null)
+  const [scienceOpen, setScienceOpen] = useState(true)
   const productsScrollRef = useRef(null)
 
   const timelineData = timelineMode === 'male' ? timelineMale : timelineFemale
@@ -372,12 +455,20 @@ export default function HomePage() {
       const heroBottom = hero.getBoundingClientRect().bottom
       const footerTop = footer.getBoundingClientRect().top
       const winH = window.innerHeight
-      setShowSticky(heroBottom < 0 && footerTop > winH * 0.5)
+      setShowSticky(heroBottom < 0 && footerTop > winH * 0.5 && !menuOpen)
+      setNavScrolled(window.scrollY > 24)
     }
     window.addEventListener('scroll', update, { passive: true })
     update()
     return () => window.removeEventListener('scroll', update)
-  }, [])
+  }, [menuOpen])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
 
   const scrollProducts = (delta) => {
     productsScrollRef.current?.scrollBy({ left: delta, behavior: 'smooth' })
@@ -389,30 +480,212 @@ export default function HomePage() {
     window.setTimeout(() => setAddedProduct(null), 1800)
   }
 
+  const closeMenu = () => setMenuOpen(false)
+
   return (
     <>
       {/* NAV */}
-      <header className="nav">
+      <header
+        className={[
+          'nav',
+          navScrolled ? 'nav-scrolled' : '',
+          menuOpen ? 'nav-menu-open' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <div className="nav-inner">
-          <a href="#" className="logo">
+          <a href="#" className="logo" onClick={closeMenu}>
             Zylk<span className="dot" /> Health
           </a>
-          <div className="nav-icons">
-            <button type="button" aria-label="WhatsApp">
+
+          <nav className="nav-links" aria-label="Primary">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div
+                  className={`nav-dropdown${openDropdown === link.label ? ' open' : ''}`}
+                  key={link.label}
+                  onMouseEnter={() => setOpenDropdown(link.label)}
+                  onMouseLeave={() => setOpenDropdown(null)}
+                >
+                  <button
+                    type="button"
+                    className="nav-link nav-link-btn"
+                    aria-expanded={openDropdown === link.label}
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === link.label ? null : link.label,
+                      )
+                    }
+                  >
+                    {link.label}
+                    <Icon name="caret" className="nav-caret" strokeWidth={2} />
+                  </button>
+                  <div className="nav-dropdown-panel">
+                    {link.children.map((child) => (
+                      <a key={child.label} href={child.href}>
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`nav-link${link.label === 'Home' ? ' active' : ''}`}
+                >
+                  {link.label}
+                </a>
+              ),
+            )}
+          </nav>
+
+          <div className="nav-actions">
+            <a href="#offers" className="nav-plan-btn">
+              My Recommended Plan
+            </a>
+            <button type="button" className="nav-icon-btn" aria-label="WhatsApp">
               <Icon name="whatsapp" />
             </button>
-            <button type="button" aria-label="Cart">
+            <button type="button" className="nav-icon-btn nav-cart-btn" aria-label="Cart">
               <Icon name="cart" />
+              <span className="cart-badge">2</span>
             </button>
-            <button type="button" aria-label="Menu">
-              <Icon name="menu" />
+            <button
+              type="button"
+              className={`nav-icon-btn nav-menu-btn${menuOpen ? ' is-open' : ''}`}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <Icon name={menuOpen ? 'close' : 'menu'} strokeWidth={1.8} />
             </button>
           </div>
         </div>
       </header>
 
+      {/* SLIDE-DOWN MENU WINDOW */}
+      <div
+        className={`menu-window${menuOpen ? ' open' : ''}`}
+        aria-hidden={!menuOpen}
+      >
+        <div className="menu-window-inner">
+          <div className="menu-grid">
+            {menuColumns.map((column, colIndex) => (
+              <div className="menu-col" key={colIndex}>
+                {column.map((item) =>
+                  item.accordion ? (
+                    <div
+                      className={`menu-item menu-accordion${scienceOpen ? ' open' : ''}`}
+                      key={item.label}
+                    >
+                      <button
+                        type="button"
+                        className="menu-item-btn"
+                        onClick={() => setScienceOpen((open) => !open)}
+                      >
+                        <span className="menu-item-icon">
+                          <Icon name={item.icon} />
+                        </span>
+                        <span className="menu-item-text">{item.label}</span>
+                        <Icon
+                          name="caret"
+                          className="menu-accordion-caret"
+                          strokeWidth={2}
+                        />
+                      </button>
+                      {scienceOpen
+                        ? item.children.map((child) => (
+                            <a
+                              key={child.label}
+                              href={child.href}
+                              className="menu-sublink"
+                              onClick={closeMenu}
+                            >
+                              {child.label}
+                            </a>
+                          ))
+                        : null}
+                    </div>
+                  ) : (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="menu-item"
+                      onClick={closeMenu}
+                    >
+                      <span className="menu-item-icon">
+                        <Icon name={item.icon} />
+                      </span>
+                      <span className="menu-item-text">
+                        {item.label}
+                        {item.sub ? (
+                          <span className="menu-item-sub">{item.sub}</span>
+                        ) : null}
+                      </span>
+                      {item.badge ? (
+                        <span className="menu-badge">{item.badge}</span>
+                      ) : null}
+                      {item.arrow ? (
+                        <Icon
+                          name="chevronRight"
+                          className="menu-arrow"
+                          strokeWidth={2}
+                        />
+                      ) : null}
+                    </a>
+                  ),
+                )}
+
+                {colIndex === 2 ? (
+                  <div className="menu-download">
+                    <div className="menu-download-head">
+                      <span className="menu-item-icon">
+                        <Icon name="device" />
+                      </span>
+                      Download App
+                    </div>
+                    <div className="menu-store-row">
+                      <a href="#" className="menu-store-btn" onClick={closeMenu}>
+                        Google Play
+                      </a>
+                      <a href="#" className="menu-store-btn" onClick={closeMenu}>
+                        App Store
+                      </a>
+                    </div>
+                    <div className="menu-social">
+                      <a href="#" aria-label="YouTube" onClick={closeMenu}>
+                        <Icon name="youtube" />
+                      </a>
+                      <a href="#" aria-label="Instagram" onClick={closeMenu}>
+                        <Icon name="instagram" />
+                      </a>
+                      <a href="#" aria-label="Facebook" onClick={closeMenu}>
+                        <Icon name="facebook" />
+                      </a>
+                      <a href="#" aria-label="WhatsApp" onClick={closeMenu}>
+                        <Icon name="whatsapp" />
+                      </a>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {menuOpen ? (
+        <button
+          type="button"
+          className="menu-backdrop"
+          aria-label="Close menu"
+          onClick={closeMenu}
+        />
+      ) : null}
+
       {/* HERO */}
-      <section className="hero" style={{ paddingTop: 64 }}>
+      <section className="hero">
         <div className="wrap">
           <div className="hero-art">
             <svg viewBox="0 0 320 220" fill="none" aria-hidden="true">
