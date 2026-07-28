@@ -573,7 +573,7 @@ header.nav.nav-menu-open .nav-inner {
 }
 
 .hero-image {
-  width: min(100%, 680px);
+  width: min(100%, 760px);
   height: auto;
   max-width: 100%;
   object-fit: contain;
