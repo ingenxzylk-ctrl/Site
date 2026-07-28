@@ -1,0 +1,892 @@
+import { useEffect, useRef, useState } from 'react'
+import './styles/home.css'
+
+/* ---------- ICONS ---------- */
+const icons = {
+  dna: '<path d="M6 3c0 6 12 12 12 18M18 3c0 6-12 12-12 18M7 8h10M7 16h10"/>',
+  metabolism: '<path d="M3 12h4l2-7 4 14 2-7h6"/>',
+  stress:
+    '<circle cx="12" cy="10" r="6"/><path d="M9 21c0-2 1.5-3 3-3s3 1 3 3"/><path d="M9 9c.5-1.5 2-1.5 3-.5 1-1 2.5-1 3 .5"/>',
+  dandruff:
+    '<path d="M12 2c-3 4-6 7-6 11a6 6 0 0 0 12 0c0-4-3-7-6-11z"/><circle cx="6" cy="19" r="1"/><circle cx="17" cy="18" r=".7"/>',
+  gut: '<path d="M6 4c0 3 3 3 3 6s-3 3-3 6 3 3 3 5M12 4c0 3 3 3 3 6s-3 3-3 6 3 3 3 5"/>',
+  nutrition:
+    '<path d="M12 21c-5-2-8-6-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 5-3 9-8 11z"/><path d="M12 10V4"/>',
+  kit: '<path d="M4 8h16l-1 12H5L4 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  doctor:
+    '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/><path d="M12 12v4M10 14h4"/>',
+  coach:
+    '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5"/><path d="M16 4l1.5 1.5L21 2"/><circle cx="17" cy="15" r="4"/>',
+  nutplan:
+    '<path d="M4 4h16v4H4z"/><path d="M6 8v12h12V8"/><path d="M9 12h6M9 16h6"/>',
+  genomic:
+    '<path d="M4 6c4 2 4 4 8 4s4-2 8-4M4 12c4 2 4 4 8 4s4-2 8-4M4 18c4 2 4 4 8 4s4-2 8-4" transform="translate(0,-6)"/>',
+  consult:
+    '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  check: '<polyline points="20 6 9 17 4 12"/>',
+  cross:
+    '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  bottle:
+    '<path d="M10 2h4v3l2 2v13a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V7l2-2z"/><path d="M8 12h8"/>',
+  dropper:
+    '<path d="M9 2h6l-1 6-3 3-3-3-1-6z"/><path d="M12 11v9"/><circle cx="12" cy="21" r="1.4"/>',
+  jar: '<path d="M6 9h12v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/><path d="M5 6h14v3H5z"/>',
+  capsule:
+    '<rect x="4" y="9" width="16" height="6" rx="3" transform="rotate(-30 12 12)"/><line x1="10" y1="8" x2="14" y2="16"/>',
+  comb: '<path d="M4 4h16v4H4z"/><path d="M6 8v12M9 8v12M12 8v12M15 8v12M18 8v12"/>',
+  roller: '<circle cx="12" cy="9" r="3"/><path d="M12 12v8M9 16h6"/>',
+  gummy:
+    '<path d="M12 3c4 0 6 3 6 7s-2 8-6 8-6-4-6-8 2-7 6-7z"/><path d="M9 10c1 1 5 1 6 0"/>',
+  spray: '<path d="M9 6h4v3h4l1 2v11H8V11l1-2z" /><path d="M9 6V3h4v3"/>',
+  cart: '<path d="M4 4h2l1.4 11.2A2 2 0 0 0 9.4 17h7.2a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="10" cy="21" r="1.2" fill="currentColor" stroke="none"/><circle cx="17" cy="21" r="1.2" fill="currentColor" stroke="none"/>',
+  star: '<polygon points="12 2 15 8.5 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 8.5 12 2" fill="currentColor" stroke="none"/>',
+  headM:
+    '<path d="M12 3C7 3 5 7 5 11c0 5 2 8 2 10h10c0-2 2-5 2-10 0-4-2-8-7-8z"/>',
+  headF:
+    '<path d="M12 3c-5 0-7 4-7 9 0 5 2 8 2 9h10c0-1 2-4 2-9 0-5-2-9-7-9z"/><path d="M5 10c0 3 1 3 1 6M19 10c0 3-1 3-1 6"/>',
+  users:
+    '<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  checkCircle:
+    '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+  starOutline:
+    '<polygon points="12 2 15 8.5 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 8.5 12 2"/>',
+  whatsapp:
+    '<path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M8.5 8.8c.2-.5.4-.5.6-.5h.5c.15 0 .35 0 .5.4.2.5.65 1.6.7 1.75.06.15.1.3 0 .5-.1.2-.15.3-.3.45l-.4.45c-.15.15-.3.3-.13.6.17.3.75 1.2 1.6 1.95 1.1.95 1.95 1.25 2.25 1.4.3.13.45.1.6-.07.2-.2.75-.85.95-1.15.2-.3.4-.25.65-.15.25.1 1.6.75 1.9.9.3.13.5.2.55.3.1.2.1 1.05-.25 1.5-.35.45-1.35 1.05-2.3 1.05-.95 0-2.5-.35-4.5-2.2-2.4-2.15-3.85-4.5-4.05-4.85-.2-.35-1.05-1.55-1.05-2.85 0-1.3.7-1.9.95-2.15z"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  chevronDown: '<polyline points="6 9 12 15 18 9"/>',
+  chevronLeft: '<polyline points="15 18 9 12 15 6"/>',
+  chevronRight: '<polyline points="9 18 15 12 9 6"/>',
+  person:
+    '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  instagram:
+    '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',
+  youtube:
+    '<rect x="2" y="5" width="20" height="14" rx="4"/><polygon points="10 9 15 12 10 15" fill="currentColor" stroke="none"/>',
+  linkedin:
+    '<rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="16"/><circle cx="8" cy="7" r=".5" fill="currentColor"/><path d="M12 16v-3.5a2 2 0 0 1 4 0V16"/>',
+}
+
+function Icon({ name, className, strokeWidth = 1.6 }) {
+  const path = icons[name]
+  if (!path) return null
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      dangerouslySetInnerHTML={{ __html: path }}
+    />
+  )
+}
+
+/* ---------- DATA ---------- */
+const causes = [
+  {
+    icon: 'dna',
+    title: 'Genetics',
+    desc: 'Androgenetic patterns inherited from either side of the family can shrink follicles over time.',
+  },
+  {
+    icon: 'metabolism',
+    title: 'Metabolism',
+    desc: "Thyroid and hormonal shifts change how nutrients travel from your body to your scalp.",
+  },
+  {
+    icon: 'stress',
+    title: 'Stress',
+    desc: 'Cortisol spikes can push healthy follicles into a resting phase, prematurely.',
+  },
+  {
+    icon: 'dandruff',
+    title: 'Dandruff',
+    desc: 'An inflamed scalp struggles to hold onto hair long enough for it to fully grow.',
+  },
+  {
+    icon: 'gut',
+    title: 'Gut Issues',
+    desc: 'Poor nutrient absorption starves follicles of the building blocks they need most.',
+  },
+  {
+    icon: 'nutrition',
+    title: 'Nutrition',
+    desc: 'Iron, protein and biotin gaps often show up on your scalp before anywhere else.',
+  },
+]
+
+const offers = [
+  {
+    icon: 'kit',
+    title: 'Customized Kit',
+    desc: 'Formulated around your exact scalp profile — never a generic bottle off the shelf.',
+  },
+  {
+    icon: 'doctor',
+    title: 'Doctor Review',
+    desc: 'A registered dermatologist reviews your assessment before anything ships to you.',
+  },
+  {
+    icon: 'coach',
+    title: 'Free Wellness Coach',
+    desc: 'Ongoing check-ins that keep your routine on track, at no extra cost.',
+  },
+  {
+    icon: 'nutplan',
+    title: 'Free Nutrition Plan',
+    desc: 'Diet guidance built around what your gut-hair axis actually needs to recover.',
+  },
+  {
+    icon: 'genomic',
+    title: 'Free Advanced Genomic Guidance',
+    desc: 'Understand your inherited hair-loss pattern and what it means for your plan.',
+  },
+  {
+    icon: 'consult',
+    title: 'Consultation',
+    desc: 'A one-on-one call to walk through your results and next steps, in plain language.',
+  },
+]
+
+const stagesMale = [
+  { n: '1', ok: true },
+  { n: '2', ok: true },
+  { n: '3', ok: true },
+  { n: '4', ok: true },
+  { n: '5', ok: false },
+  { n: '6', ok: false },
+]
+
+const stagesFemale = [
+  { n: 'I', ok: true },
+  { n: 'I–II', ok: true },
+  { n: 'II', ok: true },
+  { n: 'III', ok: false },
+]
+
+const timelineMale = [
+  {
+    m: 'Month 1–3',
+    h: 'Shedding slows',
+    d: 'Scalp inflammation reduces and early activity begins deep in the follicle bulbs.',
+  },
+  {
+    m: 'Month 4–6',
+    h: 'Baby hairs appear',
+    d: 'Visible fine regrowth along the hairline; strand diameter thickens under the lab lens.',
+  },
+  {
+    m: 'Month 7+',
+    h: 'Density returns',
+    d: 'New growth blends with existing hair as visible density returns to earlier levels.',
+  },
+]
+
+const timelineFemale = [
+  {
+    m: 'Month 1–3',
+    h: 'Fall reduces',
+    d: 'Daily shedding noticeably drops as the scalp environment starts to stabilize.',
+  },
+  {
+    m: 'Month 4–6',
+    h: 'Volume builds',
+    d: 'Part-line coverage improves and strands feel visibly thicker to the touch.',
+  },
+  {
+    m: 'Month 7+',
+    h: 'Fullness restored',
+    d: 'Overall volume and part-line density return closer to pre-hair-fall levels.',
+  },
+]
+
+const products = [
+  {
+    icon: 'bottle',
+    tag: 'Bestseller',
+    name: 'Regrowth Hair Oil',
+    desc: 'Lightweight daily oil with redensyl and rosemary to wake up dormant follicles.',
+    rating: 4.7,
+    count: 2140,
+    price: 899,
+    old: 1199,
+    category: 'growth',
+  },
+  {
+    icon: 'dropper',
+    tag: null,
+    name: 'Density Serum',
+    desc: 'Leave-in serum targeting thinning zones with peptides and caffeine complex.',
+    rating: 4.6,
+    count: 1580,
+    price: 1249,
+    old: null,
+    category: 'growth',
+  },
+  {
+    icon: 'capsule',
+    tag: 'Doctor Pick',
+    name: 'Hair Growth Supplements',
+    desc: 'Biotin, iron and zinc formulated to support growth from the inside out.',
+    rating: 4.8,
+    count: 3020,
+    price: 749,
+    old: 999,
+    category: 'growth',
+  },
+  {
+    icon: 'jar',
+    tag: null,
+    name: 'Anti-Dandruff Scalp Mask',
+    desc: 'Weekly clay mask that calms flaking and rebalances an inflamed scalp.',
+    rating: 4.5,
+    count: 960,
+    price: 649,
+    old: null,
+    category: 'dandruff',
+  },
+  {
+    icon: 'spray',
+    tag: null,
+    name: 'Scalp Cooling Spray',
+    desc: 'Instant-relief spray for itch and tightness caused by stress and heat.',
+    rating: 4.4,
+    count: 540,
+    price: 449,
+    old: 599,
+    category: 'dandruff',
+  },
+  {
+    icon: 'roller',
+    tag: null,
+    name: 'Micro Derma Roller',
+    desc: '0.25mm titanium roller to boost absorption of your serum and oil.',
+    rating: 4.6,
+    count: 1210,
+    price: 599,
+    old: null,
+    category: 'loss',
+  },
+  {
+    icon: 'comb',
+    tag: 'New',
+    name: 'Scalp Massage Comb',
+    desc: 'Ergonomic silicone comb that improves circulation during oil application.',
+    rating: 4.3,
+    count: 410,
+    price: 349,
+    old: null,
+    category: 'loss',
+  },
+  {
+    icon: 'gummy',
+    tag: null,
+    name: 'Biotin Gummies',
+    desc: 'Great-tasting daily gummies with biotin, folic acid and vitamin E.',
+    rating: 4.7,
+    count: 1870,
+    price: 699,
+    old: 899,
+    category: 'loss',
+  },
+]
+
+const filterDefs = [
+  { key: 'all', label: 'All Products' },
+  { key: 'growth', label: 'Hair Growth' },
+  { key: 'loss', label: 'Hair Loss' },
+  { key: 'dandruff', label: 'Dandruff' },
+]
+
+const trustItems = [
+  { icon: 'users', num: '50,000+', label: ' assessed' },
+  { icon: 'checkCircle', num: '92%', label: ' visible regrowth*' },
+  { icon: 'starOutline', num: '4.8/5', label: ' from 12,000+ users' },
+]
+
+/* ---------- HELPERS ---------- */
+function Reveal({ children, className = '' }) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.12 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className={`reveal ${className}`.trim()}>
+      {children}
+    </div>
+  )
+}
+
+function StarRow({ rating }) {
+  return Array.from({ length: 5 }, (_, i) => (
+    <span key={i} style={{ opacity: i < Math.round(rating) ? 1 : 0.25 }}>
+      <Icon name="star" />
+    </span>
+  ))
+}
+
+/* ---------- HOME PAGE ---------- */
+export default function HomePage() {
+  const [openCause, setOpenCause] = useState(0)
+  const [stageGender, setStageGender] = useState('male')
+  const [timelineMode, setTimelineMode] = useState('male')
+  const [activeFilter, setActiveFilter] = useState('all')
+  const [addedProduct, setAddedProduct] = useState(null)
+  const [showSticky, setShowSticky] = useState(false)
+  const productsScrollRef = useRef(null)
+
+  const timelineData = timelineMode === 'male' ? timelineMale : timelineFemale
+  const productList =
+    activeFilter === 'all'
+      ? products
+      : products.filter((p) => p.category === activeFilter)
+
+  useEffect(() => {
+    productsScrollRef.current?.scrollTo({ left: 0 })
+  }, [activeFilter])
+
+  useEffect(() => {
+    const update = () => {
+      const hero = document.querySelector('.hero')
+      const footer = document.querySelector('footer')
+      if (!hero || !footer) return
+      const heroBottom = hero.getBoundingClientRect().bottom
+      const footerTop = footer.getBoundingClientRect().top
+      const winH = window.innerHeight
+      setShowSticky(heroBottom < 0 && footerTop > winH * 0.5)
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => window.removeEventListener('scroll', update)
+  }, [])
+
+  const scrollProducts = (delta) => {
+    productsScrollRef.current?.scrollBy({ left: delta, behavior: 'smooth' })
+  }
+
+  const handleAddToCart = (name) => {
+    if (addedProduct === name) return
+    setAddedProduct(name)
+    window.setTimeout(() => setAddedProduct(null), 1800)
+  }
+
+  return (
+    <>
+      {/* NAV */}
+      <header className="nav">
+        <div className="nav-inner">
+          <a href="#" className="logo">
+            Zylk<span className="dot" /> Health
+          </a>
+          <div className="nav-icons">
+            <button type="button" aria-label="WhatsApp">
+              <Icon name="whatsapp" />
+            </button>
+            <button type="button" aria-label="Cart">
+              <Icon name="cart" />
+            </button>
+            <button type="button" aria-label="Menu">
+              <Icon name="menu" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section className="hero" style={{ paddingTop: 64 }}>
+        <div className="wrap">
+          <div className="hero-art">
+            <svg viewBox="0 0 320 220" fill="none" aria-hidden="true">
+              <ellipse cx="160" cy="196" rx="120" ry="10" fill="#DCE7DD" opacity=".5" />
+              <g stroke="#0B3D2E" strokeWidth="1.3" strokeLinecap="round" opacity=".85">
+                <path d="M110 180 C 100 120, 118 70, 108 30" />
+                <path d="M132 184 C 126 130, 140 78, 132 26" />
+                <path d="M156 186 C 154 132, 162 74, 158 22" />
+                <path d="M180 184 C 184 130, 176 78, 184 26" />
+                <path d="M204 180 C 212 120, 196 70, 208 30" />
+              </g>
+              <g stroke="#C9A24B" strokeWidth="1.3" strokeLinecap="round">
+                <path d="M120 40 C 122 34, 128 32, 132 36" />
+                <path d="M186 38 C 188 32, 194 32, 196 38" />
+                <path d="M156 20 C 158 14, 164 14, 165 20" />
+              </g>
+              <circle cx="160" cy="190" r="3" fill="#146B4A" />
+              <circle cx="118" cy="182" r="2.2" fill="#146B4A" />
+              <circle cx="202" cy="182" r="2.2" fill="#146B4A" />
+            </svg>
+          </div>
+          <span className="eyebrow" style={{ justifyContent: 'center' }}>
+            AI Scalp Assessment
+          </span>
+          <h1 className="hero-headline">
+            Why are you losing hair? <em>Find out</em> in 2 minutes.
+          </h1>
+          <p className="hero-sub">
+            Answer a few questions, upload a scalp photo, and our AI maps the real
+            cause behind your hair fall — before a doctor ever writes your plan.
+          </p>
+          <div className="hero-cta-row">
+            <a href="#assessment" className="btn btn-primary">
+              Take the Free Assessment
+            </a>
+          </div>
+          <div className="trust-row">
+            {trustItems.map((item) => (
+              <div className="trust-chip" key={item.num}>
+                <span className="icon-badge">
+                  <Icon name={item.icon} strokeWidth={2} />
+                </span>
+                <span>
+                  <span className="num">{item.num}</span>
+                  <span className="label">{item.label}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CAUSES */}
+      <section id="causes">
+        <div className="wrap">
+          <Reveal className="section-head center">
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>
+              The Six Root Causes
+            </span>
+            <h2>Hair health starts from within</h2>
+            <p>
+              Hair fall rarely has one cause. Our assessment scores you across all
+              six — so your plan treats what&apos;s actually happening, in the
+              order it matters.
+            </p>
+          </Reveal>
+
+          <Reveal className="causes-desktop">
+            {causes.map((cause, i) => (
+              <div className="cause-card" key={cause.title}>
+                <span className="cause-index">0{i + 1}</span>
+                <div className="cause-icon">
+                  <Icon name={cause.icon} />
+                </div>
+                <h3>{cause.title}</h3>
+                <p>{cause.desc}</p>
+              </div>
+            ))}
+          </Reveal>
+
+          <div className="causes-mobile">
+            <div className="diag-path">
+              {causes.map((cause, i) => (
+                <div
+                  className={`diag-step${openCause === i ? ' open' : ''}`}
+                  key={cause.title}
+                >
+                  <div className="diag-dot">
+                    <Icon name={cause.icon} />
+                  </div>
+                  <button
+                    type="button"
+                    className="diag-step-head"
+                    onClick={() => setOpenCause(openCause === i ? -1 : i)}
+                  >
+                    <h3>{cause.title}</h3>
+                    <Icon name="chevronDown" className="diag-chevron" strokeWidth={2} />
+                  </button>
+                  <div className="diag-body">
+                    <div className="diag-body-inner">{cause.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* OFFERS */}
+      <section className="bg-cream" id="offers">
+        <div className="wrap">
+          <Reveal className="section-head center">
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>
+              Inside Your Plan
+            </span>
+            <h2>What you get</h2>
+            <p>
+              Every plan is built around your assessment — reviewed by a doctor,
+              backed by a real person, at every step.
+            </p>
+          </Reveal>
+          <Reveal className="offers-grid">
+            {offers.map((offer, i) => (
+              <div className="offer-card" key={offer.title}>
+                <span className="offer-num">0{i + 1}</span>
+                <div className="offer-icon">
+                  <Icon name={offer.icon} />
+                </div>
+                <h3>{offer.title}</h3>
+                <p>{offer.desc}</p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* STAGES */}
+      <section className="stage-band" id="stages">
+        <div className="wrap">
+          <Reveal className="section-head center">
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>
+              Know Your Window
+            </span>
+            <h2>How much time do you have?</h2>
+            <p>
+              Hair loss is most reversible in its earliest stages. Find where you
+              sit — and how much runway is left.
+            </p>
+          </Reveal>
+
+          <Reveal className="stage-desktop">
+            <div className="stage-row-label">Male pattern (Norwood scale)</div>
+            <div className="stage-row">
+              {stagesMale.map((stage) => (
+                <div className="stage-cell" key={stage.n}>
+                  <div className="stage-thumb">
+                    <Icon name="headM" />
+                    <div className={`stage-badge ${stage.ok ? 'ok' : 'no'}`}>
+                      <Icon name={stage.ok ? 'check' : 'cross'} />
+                    </div>
+                  </div>
+                  <div className="lbl">Stage {stage.n}</div>
+                  <div className="sub">
+                    {stage.ok ? 'Preventable' : 'Limited options'}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="stage-row-label">Female pattern (Ludwig scale)</div>
+            <div className="stage-row female">
+              {stagesFemale.map((stage) => (
+                <div className="stage-cell" key={stage.n}>
+                  <div className="stage-thumb">
+                    <Icon name="headM" />
+                    <div className={`stage-badge ${stage.ok ? 'ok' : 'no'}`}>
+                      <Icon name={stage.ok ? 'check' : 'cross'} />
+                    </div>
+                  </div>
+                  <div className="lbl">Stage {stage.n}</div>
+                  <div className="sub">
+                    {stage.ok ? 'Preventable' : 'Limited options'}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal className="stage-mobile">
+            <div className="stage-tabs">
+              <button
+                type="button"
+                className={`stage-tab${stageGender === 'male' ? ' active' : ''}`}
+                onClick={() => setStageGender('male')}
+              >
+                Male
+              </button>
+              <button
+                type="button"
+                className={`stage-tab${stageGender === 'female' ? ' active' : ''}`}
+                onClick={() => setStageGender('female')}
+              >
+                Female
+              </button>
+            </div>
+            <div className="ladder">
+              {(stageGender === 'male' ? stagesMale : stagesFemale).map((stage) => (
+                <div className="ladder-step" key={stage.n}>
+                  <div className="ladder-dot">
+                    <Icon name="headM" />
+                  </div>
+                  <div className={`badge-sm ${stage.ok ? 'ok' : 'no'}`}>
+                    <Icon name={stage.ok ? 'check' : 'cross'} />
+                  </div>
+                  <div className="ladder-text">
+                    <div className="lbl">Stage {stage.n}</div>
+                    <div className="sub">
+                      {stage.ok ? 'Still preventable' : 'Limited options remain'}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="zone-note">
+              <span>
+                <span className="zone-dot" style={{ background: '#5EA985' }} />
+                Still preventable
+              </span>
+              <span>
+                <span className="zone-dot" style={{ background: 'var(--muted-red)' }} />
+                Limited options
+              </span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section id="timeline">
+        <div className="wrap">
+          <Reveal className="section-head center">
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>
+              What To Expect
+            </span>
+            <h2>Your regrowth timeline</h2>
+            <p>
+              Hair grows in cycles, not overnight. Here&apos;s what most people
+              see, month by month.
+            </p>
+          </Reveal>
+
+          <Reveal className="tl-toggle">
+            <div className="tl-tabs">
+              <button
+                type="button"
+                className={`tl-tab${timelineMode === 'male' ? ' active' : ''}`}
+                onClick={() => setTimelineMode('male')}
+              >
+                Male timeline
+              </button>
+              <button
+                type="button"
+                className={`tl-tab${timelineMode === 'female' ? ' active' : ''}`}
+                onClick={() => setTimelineMode('female')}
+              >
+                Female timeline
+              </button>
+            </div>
+          </Reveal>
+
+          <Reveal className="timeline-desktop">
+            <div className="timeline-line" />
+            <div className="timeline-line-fill" />
+            <div className="tl-row">
+              {timelineData.map((item, i) => (
+                <div className="tl-item" key={item.m}>
+                  <div className="tl-node">{i + 1}</div>
+                  <h3>
+                    {item.m} — {item.h}
+                  </h3>
+                  <p>{item.d}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <div className="timeline-mobile">
+            {timelineData.map((item) => (
+              <div className="tlm-item" key={item.m}>
+                <div className="tlm-node" />
+                <span className="month">{item.m}</span>
+                <h3>{item.h}</h3>
+                <p>{item.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRODUCTS */}
+      <section className="bg-cream" id="products">
+        <div className="wrap">
+          <Reveal className="products-head-row">
+            <div className="section-head">
+              <span className="eyebrow">Shop The Range</span>
+              <h2>Built for your scalp</h2>
+              <p>
+                Every product is doctor-formulated and matched to what your
+                assessment finds — browse the full range here.
+              </p>
+            </div>
+            <div className="scroll-arrows">
+              <button
+                type="button"
+                className="scroll-arrow"
+                aria-label="Scroll left"
+                onClick={() => scrollProducts(-280)}
+              >
+                <Icon name="chevronLeft" strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                className="scroll-arrow"
+                aria-label="Scroll right"
+                onClick={() => scrollProducts(280)}
+              >
+                <Icon name="chevronRight" strokeWidth={2} />
+              </button>
+            </div>
+          </Reveal>
+
+          <Reveal className="product-filters">
+            {filterDefs.map((filter) => {
+              const count =
+                filter.key === 'all'
+                  ? products.length
+                  : products.filter((p) => p.category === filter.key).length
+              return (
+                <button
+                  type="button"
+                  key={filter.key}
+                  className={`pf-tab${activeFilter === filter.key ? ' active' : ''}`}
+                  onClick={() => setActiveFilter(filter.key)}
+                >
+                  {filter.label}
+                  <span className="pf-count">{count}</span>
+                </button>
+              )
+            })}
+          </Reveal>
+
+          <Reveal>
+            <div className="products-scroll" ref={productsScrollRef}>
+              {productList.map((product) => (
+                <div className="product-card" key={product.name}>
+                  <div className="product-media">
+                    {product.tag ? (
+                      <span className="product-tag">{product.tag}</span>
+                    ) : null}
+                    <Icon name={product.icon} />
+                  </div>
+                  <div className="product-body">
+                    <div className="product-name">{product.name}</div>
+                    <div className="product-desc">{product.desc}</div>
+                    <div className="product-rating">
+                      <span className="stars">
+                        <StarRow rating={product.rating} />
+                      </span>
+                      <span className="rate-num">{product.rating}</span>
+                      <span className="rate-count">
+                        ({product.count.toLocaleString()})
+                      </span>
+                    </div>
+                    <div className="product-price-row">
+                      <span className="product-price">₹{product.price}</span>
+                      {product.old ? (
+                        <span className="product-price-old">₹{product.old}</span>
+                      ) : null}
+                    </div>
+                    <button
+                      type="button"
+                      className={`btn-add-cart${addedProduct === product.name ? ' added' : ''}`}
+                      onClick={() => handleAddToCart(product.name)}
+                    >
+                      <Icon name="cart" />
+                      <span>
+                        {addedProduct === product.name ? 'Added ✓' : 'Add to Cart'}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* CHAT */}
+      <section className="chat-band">
+        <Reveal className="wrap chat-inner">
+          <div className="chat-avatar">
+            <Icon name="person" strokeWidth={1.5} />
+          </div>
+          <div className="chat-text">
+            <span className="eyebrow">Talk To A Human</span>
+            <h2>Have questions? Talk to our hair experts.</h2>
+            <p>
+              No bots, no scripts — a real consultant walks you through your
+              results and answers whatever&apos;s on your mind.
+            </p>
+            <a href="#" className="btn btn-whatsapp">
+              <Icon name="whatsapp" />
+              Chat on WhatsApp
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* FOOTER */}
+      <footer id="assessment">
+        <div className="wrap">
+          <div className="footer-grid">
+            <div>
+              <div className="footer-logo">Zylk Health</div>
+              <p className="footer-desc">
+                AI-powered scalp assessments and doctor-reviewed plans, built
+                around what&apos;s actually causing your hair fall.
+              </p>
+              <div className="footer-social">
+                <a href="#" aria-label="Instagram">
+                  <Icon name="instagram" />
+                </a>
+                <a href="#" aria-label="YouTube">
+                  <Icon name="youtube" />
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                  <Icon name="linkedin" />
+                </a>
+              </div>
+            </div>
+            <div className="footer-col">
+              <h4>Company</h4>
+              <a href="#">About Zylk</a>
+              <a href="#">Take Assessment</a>
+              <a href="#">Shop</a>
+              <a href="#">Careers</a>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Refund Policy</a>
+            </div>
+            <div className="footer-col">
+              <h4>Get in touch</h4>
+              <p>care@zylkhealth.com</p>
+              <p>+91 98765 43210</p>
+              <p>HSR Layout, Bengaluru</p>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 Zylk Health. All rights reserved.</span>
+            <span>*Results vary by individual and adherence to plan.</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* STICKY CTA */}
+      <a
+        href="#assessment"
+        className={`sticky-cta${showSticky ? ' show' : ''}`}
+        id="stickyCta"
+      >
+        Find your cause <span>→</span> Take the Free Assessment
+      </a>
+    </>
+  )
+}
