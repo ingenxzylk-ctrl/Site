@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import heroCouple from './assets/hero-couple.png'
 import './styles/home.css'
+
+const heroCouple = '/hero-couple.png'
 
 /* ---------- ICONS ---------- */
 const icons = {
