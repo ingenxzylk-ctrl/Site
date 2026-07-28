@@ -250,8 +250,13 @@ header.nav.nav-menu-open .nav-inner {
 }
 
 .nav-icon-btn svg {
-  width: 19px;
-  height: 19px;
+  width: 21px;
+  height: 21px;
+}
+
+.nav-menu-btn svg {
+  width: 22px;
+  height: 22px;
 }
 
 .nav-cart-btn .cart-badge {
@@ -423,37 +428,36 @@ header.nav.nav-menu-open .nav-inner {
   overflow: hidden;
   min-height: min(100vh, 760px);
   display: flex;
-  align-items: center;
+  align-items: stretch;
   background: var(--forest);
 }
 
-.hero-backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 70% 90% at 82% 48%, rgba(20, 107, 74, 0.28), transparent 62%),
-    var(--forest);
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.15fr);
+  align-items: stretch;
+  width: 100%;
+  min-height: inherit;
 }
 
 .hero-visual {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(58%, 780px);
+  position: relative;
   z-index: 1;
+  min-height: 0;
   overflow: hidden;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  background: var(--forest);
+  padding: 72px 24px 32px 8px;
 }
 
 .hero-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  max-height: min(88vh, 680px);
+  object-fit: contain;
+  object-position: center center;
   display: block;
 }
 
@@ -463,9 +467,10 @@ header.nav.nav-menu-open .nav-inner {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: min(100%, 560px);
+  width: 100%;
+  max-width: 560px;
   margin-right: auto;
-  padding: 120px 32px 64px clamp(28px, 6vw, 88px);
+  padding: 120px 24px 64px clamp(28px, 6vw, 88px);
   color: var(--cream);
   background: transparent;
 }
@@ -1707,18 +1712,26 @@ footer {
     align-items: stretch;
   }
 
-  .hero-backdrop {
-    background: var(--forest);
+  .hero-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
 
   .hero-visual {
-    position: relative;
+    order: -1;
     width: 100%;
-    height: 420px;
+    min-height: 360px;
+    height: min(52vw, 440px);
+    padding: 88px 16px 8px;
+  }
+
+  .hero-image {
+    max-height: 100%;
   }
 
   .hero-copy {
     width: 100%;
+    max-width: none;
     padding: 28px 32px 56px;
   }
 
@@ -1774,8 +1787,10 @@ footer {
   }
 
   .hero-visual {
-    height: 56vw;
-    max-height: 420px;
+    height: 58vw;
+    min-height: 280px;
+    max-height: 400px;
+    padding: 80px 12px 4px;
   }
 
   .hero-copy {

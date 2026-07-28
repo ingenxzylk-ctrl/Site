@@ -40,6 +40,7 @@ const icons = {
     '<path d="M12 3c4 0 6 3 6 7s-2 8-6 8-6-4-6-8 2-7 6-7z"/><path d="M9 10c1 1 5 1 6 0"/>',
   spray: '<path d="M9 6h4v3h4l1 2v11H8V11l1-2z" /><path d="M9 6V3h4v3"/>',
   cart: '<path d="M4 4h2l1.4 11.2A2 2 0 0 0 9.4 17h7.2a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="10" cy="21" r="1.2" fill="currentColor" stroke="none"/><circle cx="17" cy="21" r="1.2" fill="currentColor" stroke="none"/>',
+  bag: '<path d="M6 8h12l-.8 12.2A2 2 0 0 1 15.2 22H8.8a2 2 0 0 1-2-1.8L6 8z"/><path d="M9 8V6.5A3 3 0 0 1 12 3.5 3 3 0 0 1 15 6.5V8"/>',
   star: '<polygon points="12 2 15 8.5 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 8.5 12 2" fill="currentColor" stroke="none"/>',
   headM:
     '<path d="M12 3C7 3 5 7 5 11c0 5 2 8 2 10h10c0-2 2-5 2-10 0-4-2-8-7-8z"/>',
@@ -52,8 +53,8 @@ const icons = {
   starOutline:
     '<polygon points="12 2 15 8.5 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 8.5 12 2"/>',
   whatsapp:
-    '<path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M8.5 8.8c.2-.5.4-.5.6-.5h.5c.15 0 .35 0 .5.4.2.5.65 1.6.7 1.75.06.15.1.3 0 .5-.1.2-.15.3-.3.45l-.4.45c-.15.15-.3.3-.13.6.17.3.75 1.2 1.6 1.95 1.1.95 1.95 1.25 2.25 1.4.3.13.45.1.6-.07.2-.2.75-.85.95-1.15.2-.3.4-.25.65-.15.25.1 1.6.75 1.9.9.3.13.5.2.55.3.1.2.1 1.05-.25 1.5-.35.45-1.35 1.05-2.3 1.05-.95 0-2.5-.35-4.5-2.2-2.4-2.15-3.85-4.5-4.05-4.85-.2-.35-1.05-1.55-1.05-2.85 0-1.3.7-1.9.95-2.15z"/>',
-  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    '<path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L3 21.5l4.9-1.3A9.5 9.5 0 1 0 12 2.5z"/><path d="M9.2 8.4c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .55.4.2.55.7 1.7.75 1.85.05.15.1.3 0 .5-.1.2-.15.35-.3.5l-.4.45c-.15.15-.3.35-.1.65.2.3.8 1.25 1.7 2.05 1.15 1 2.05 1.3 2.35 1.45.3.15.5.1.65-.1.2-.2.8-.9 1-1.2.2-.3.4-.25.7-.15.25.1 1.65.8 1.95.95.3.15.5.2.55.35.1.2.1 1.1-.25 1.55-.35.45-1.4 1.1-2.4 1.1-1 0-2.55-.35-4.6-2.25-2.45-2.2-3.95-4.6-4.15-4.95-.2-.35-1.1-1.6-1.1-2.95 0-1.35.7-2 .95-2.25z"/>',
+  menu: '<path d="M5 7h14"/><path d="M5 12h14"/><path d="M5 17h10"/>',
   chevronDown: '<polyline points="6 9 12 15 18 9"/>',
   chevronLeft: '<polyline points="15 18 9 12 15 6"/>',
   chevronRight: '<polyline points="9 18 15 12 9 6"/>',
@@ -66,7 +67,7 @@ const icons = {
   linkedin:
     '<rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="16"/><circle cx="8" cy="7" r=".5" fill="currentColor"/><path d="M12 16v-3.5a2 2 0 0 1 4 0V16"/>',
   close:
-    '<line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>',
+    '<path d="M6.5 6.5l11 11"/><path d="M17.5 6.5l-11 11"/>',
   phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/>',
   pencil:
     '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>',
@@ -487,7 +488,7 @@ export default function HomePage() {
               <Icon name="whatsapp" />
             </button>
             <button type="button" className="nav-icon-btn nav-cart-btn" aria-label="Cart">
-              <Icon name="cart" />
+              <Icon name="bag" />
               <span className="cart-badge">2</span>
             </button>
             <button
@@ -497,7 +498,7 @@ export default function HomePage() {
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((open) => !open)}
             >
-              <Icon name={menuOpen ? 'close' : 'menu'} strokeWidth={1.8} />
+              <Icon name={menuOpen ? 'close' : 'menu'} strokeWidth={2} />
             </button>
           </div>
         </div>
@@ -582,42 +583,43 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="hero">
-        <div className="hero-backdrop" aria-hidden="true" />
-        <div className="hero-visual">
-          <img
-            src={heroCouple}
-            alt="Couple with healthy hair smiling"
-            className="hero-image"
-          />
-        </div>
-        <div className="hero-copy">
-          <p className="hero-brand">Zylk Health</p>
-          <span className="eyebrow">AI Scalp Assessment</span>
-          <h1 className="hero-headline">
-            Why are you losing hair? <em>Find out</em> in 2 minutes.
-          </h1>
-          <p className="hero-sub">
-            Answer a few questions, upload a scalp photo, and our AI maps the
-            real cause behind your hair fall — before a doctor ever writes your
-            plan.
-          </p>
-          <div className="hero-cta-row">
-            <a href="#assessment" className="btn btn-primary">
-              Take the Free Assessment
-            </a>
+        <div className="hero-layout">
+          <div className="hero-copy">
+            <p className="hero-brand">Zylk Health</p>
+            <span className="eyebrow">AI Scalp Assessment</span>
+            <h1 className="hero-headline">
+              Why are you losing hair? <em>Find out</em> in 2 minutes.
+            </h1>
+            <p className="hero-sub">
+              Answer a few questions, upload a scalp photo, and our AI maps the
+              real cause behind your hair fall — before a doctor ever writes your
+              plan.
+            </p>
+            <div className="hero-cta-row">
+              <a href="#assessment" className="btn btn-primary">
+                Take the Free Assessment
+              </a>
+            </div>
+            <div className="trust-row">
+              {trustItems.map((item) => (
+                <div className="trust-chip" key={item.num}>
+                  <span className="icon-badge">
+                    <Icon name={item.icon} strokeWidth={2} />
+                  </span>
+                  <span>
+                    <span className="num">{item.num}</span>
+                    <span className="label">{item.label}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="trust-row">
-            {trustItems.map((item) => (
-              <div className="trust-chip" key={item.num}>
-                <span className="icon-badge">
-                  <Icon name={item.icon} strokeWidth={2} />
-                </span>
-                <span>
-                  <span className="num">{item.num}</span>
-                  <span className="label">{item.label}</span>
-                </span>
-              </div>
-            ))}
+          <div className="hero-visual">
+            <img
+              src={heroCouple}
+              alt="Couple with healthy hair smiling"
+              className="hero-image"
+            />
           </div>
         </div>
       </section>
