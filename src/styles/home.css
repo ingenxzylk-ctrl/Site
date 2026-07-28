@@ -453,10 +453,19 @@ header.nav.nav-menu-open .nav-inner {
   grid-template-columns: minmax(300px, 0.92fr) minmax(320px, 1.18fr);
   align-items: stretch;
   min-height: min(92vh, 740px);
+  background: transparent;
+  overflow: visible;
+}
+
+.hero-curve::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background: var(--forest);
   border-bottom-left-radius: clamp(72px, 16vw, 168px);
-  overflow: visible;
   box-shadow: 0 28px 60px -36px rgba(11, 61, 46, 0.45);
+  pointer-events: none;
 }
 
 .hero-copy {
@@ -570,8 +579,9 @@ header.nav.nav-menu-open .nav-inner {
   object-fit: contain;
   object-position: center bottom;
   display: block;
-  margin-bottom: -42px;
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.22));
+  margin-bottom: -48px;
+  background: transparent;
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.28));
 }
 
 .trust-row {
@@ -1761,6 +1771,9 @@ footer {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
     min-height: auto;
+  }
+
+  .hero-curve::before {
     border-bottom-left-radius: clamp(56px, 18vw, 110px);
   }
 
