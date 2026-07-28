@@ -213,16 +213,6 @@ header.nav.nav-menu-open .nav-inner {
   margin-top: -14px;
 }
 
-.nav-links,
-.nav-link,
-.nav-link-btn,
-.nav-caret,
-.nav-dropdown,
-.nav-dropdown-panel,
-.nav-plan-btn {
-  display: none;
-}
-
 .nav-actions {
   display: flex;
   align-items: center;
@@ -301,6 +291,7 @@ header.nav.nav-menu-open .nav-inner {
   right: 0;
   z-index: 75;
   background: var(--white);
+  max-height: min(88vh, 720px);
   overflow: hidden;
   transform: translateY(-110%);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -316,22 +307,29 @@ header.nav.nav-menu-open .nav-inner {
 }
 
 .menu-window-inner {
-  max-width: 520px;
+  max-width: var(--maxw);
   margin: 0 auto;
-  padding: 92px 32px 28px;
+  padding: 92px 32px 36px;
 }
 
-.menu-list {
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px 40px;
+}
+
+.menu-col {
   display: flex;
   flex-direction: column;
 }
 
-.menu-item {
+.menu-item,
+.menu-item-btn {
   display: flex;
   align-items: center;
   gap: 14px;
   width: 100%;
-  padding: 18px 4px;
+  padding: 16px 4px;
   border-bottom: 1px solid rgba(11, 61, 46, 0.08);
   color: var(--charcoal);
   text-align: left;
@@ -339,11 +337,13 @@ header.nav.nav-menu-open .nav-inner {
   font: inherit;
 }
 
-.menu-item:last-child {
+.menu-item:last-child,
+.menu-col > .menu-accordion:last-child .menu-item-btn {
   border-bottom: none;
 }
 
-.menu-item:hover {
+.menu-item:hover,
+.menu-item-btn:hover {
   color: var(--forest);
 }
 
@@ -367,8 +367,27 @@ header.nav.nav-menu-open .nav-inner {
 .menu-item-text {
   flex: 1;
   font-family: var(--sans);
-  font-size: 15.5px;
+  font-size: 15px;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-item-sub {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #6a6a62;
+}
+
+.menu-badge {
+  background: var(--emerald);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .menu-arrow {
@@ -376,7 +395,95 @@ header.nav.nav-menu-open .nav-inner {
   height: 16px;
   color: var(--forest);
   flex-shrink: 0;
-  opacity: 0.55;
+}
+
+.menu-accordion-caret {
+  width: 16px;
+  height: 16px;
+  color: var(--forest);
+  transition: transform 0.25s ease;
+}
+
+.menu-accordion.open .menu-accordion-caret {
+  transform: rotate(180deg);
+}
+
+.menu-sublink {
+  display: block;
+  padding: 8px 4px 14px 54px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a5a52;
+  border-bottom: 1px solid rgba(11, 61, 46, 0.08);
+}
+
+.menu-sublink:hover {
+  color: var(--forest);
+}
+
+.menu-download {
+  margin-top: 18px;
+  padding-top: 8px;
+}
+
+.menu-download-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 14px;
+}
+
+.menu-store-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.menu-store-btn {
+  flex: 1;
+  text-align: center;
+  padding: 11px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(11, 61, 46, 0.18);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--forest);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.menu-store-btn:hover {
+  background: var(--sage);
+  border-color: var(--forest);
+}
+
+.menu-social {
+  display: flex;
+  gap: 12px;
+}
+
+.menu-social a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(11, 61, 46, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--forest);
+}
+
+.menu-social a:hover {
+  background: var(--sage);
+  border-color: var(--forest);
+}
+
+.menu-social svg {
+  width: 15px;
+  height: 15px;
 }
 
 /* ===================== HERO ===================== */
@@ -1593,6 +1700,11 @@ footer {
     width: 96px;
     height: 96px;
   }
+
+  .menu-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1625,7 +1737,14 @@ footer {
     padding: 84px 20px 28px;
   }
 
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
   .menu-window {
+    max-height: calc(100vh - 8px);
+    overflow-y: auto;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
