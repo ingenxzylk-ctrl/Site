@@ -328,11 +328,42 @@ const trustItems = [
   { icon: 'starOutline', num: '4.8/5', label: ' from 12,000+ users' },
 ]
 
-const menuLinks = [
-  { icon: 'dna', label: 'Root Causes', href: '#causes' },
-  { icon: 'kit', label: 'Inside Your Plan', href: '#offers' },
-  { icon: 'checkCircle', label: 'What To Expect', href: '#timeline' },
-  { icon: 'consult', label: 'Talk To A Human', href: '#chat' },
+const menuColumns = [
+  [
+    { icon: 'dna', label: 'Root Causes', href: '#causes' },
+    { icon: 'kit', label: 'Inside Your Plan', href: '#offers' },
+    { icon: 'checkCircle', label: 'What To Expect', href: '#timeline' },
+    { icon: 'consult', label: 'Talk To A Human', href: '#chat' },
+  ],
+  [
+    { icon: 'pencil', label: 'Re-Take The Assessment', href: '#assessment' },
+    { icon: 'kit', label: 'My Recommended Plan', href: '#offers' },
+    { icon: 'phone', label: 'Call Hair Coach', href: '#', badge: 'FREE' },
+    {
+      icon: 'whatsapp',
+      label: 'Chat on WhatsApp',
+      sub: '+91 98765 43210',
+      href: '#',
+    },
+    {
+      icon: 'flask',
+      label: 'Hair Science',
+      accordion: true,
+      children: [{ label: 'Research', href: '#' }],
+    },
+  ],
+  [
+    { icon: 'bottle', label: 'All Products', href: '#products', arrow: true },
+    { icon: 'money', label: 'Money Back Policy', href: '#' },
+    { icon: 'refresh', label: 'Return Policy', href: '#' },
+    { icon: 'person', label: 'Our Story', href: '#' },
+    {
+      icon: 'mail',
+      label: 'care@zylkhealth.com',
+      href: 'mailto:care@zylkhealth.com',
+    },
+    { icon: 'phone', label: '+91 98765 43210', href: 'tel:+919876543210' },
+  ],
 ]
 
 /* ---------- HELPERS ---------- */
@@ -382,6 +413,7 @@ export default function HomePage() {
   const [showSticky, setShowSticky] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [navScrolled, setNavScrolled] = useState(false)
+  const [scienceOpen, setScienceOpen] = useState(true)
   const productsScrollRef = useRef(null)
 
   const timelineData = timelineMode === 'male' ? timelineMale : timelineFemale
@@ -473,26 +505,108 @@ export default function HomePage() {
         aria-hidden={!menuOpen}
       >
         <div className="menu-window-inner">
-          <nav className="menu-list" aria-label="Page sections">
-            {menuLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="menu-item"
-                onClick={closeMenu}
-              >
-                <span className="menu-item-icon">
-                  <Icon name={item.icon} />
-                </span>
-                <span className="menu-item-text">{item.label}</span>
-                <Icon
-                  name="chevronRight"
-                  className="menu-arrow"
-                  strokeWidth={2}
-                />
-              </a>
+          <div className="menu-grid">
+            {menuColumns.map((column, colIndex) => (
+              <div className="menu-col" key={colIndex}>
+                {column.map((item) =>
+                  item.accordion ? (
+                    <div
+                      className={`menu-item menu-accordion${scienceOpen ? ' open' : ''}`}
+                      key={item.label}
+                    >
+                      <button
+                        type="button"
+                        className="menu-item-btn"
+                        onClick={() => setScienceOpen((open) => !open)}
+                      >
+                        <span className="menu-item-icon">
+                          <Icon name={item.icon} />
+                        </span>
+                        <span className="menu-item-text">{item.label}</span>
+                        <Icon
+                          name="caret"
+                          className="menu-accordion-caret"
+                          strokeWidth={2}
+                        />
+                      </button>
+                      {scienceOpen
+                        ? item.children.map((child) => (
+                            <a
+                              key={child.label}
+                              href={child.href}
+                              className="menu-sublink"
+                              onClick={closeMenu}
+                            >
+                              {child.label}
+                            </a>
+                          ))
+                        : null}
+                    </div>
+                  ) : (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="menu-item"
+                      onClick={closeMenu}
+                    >
+                      <span className="menu-item-icon">
+                        <Icon name={item.icon} />
+                      </span>
+                      <span className="menu-item-text">
+                        {item.label}
+                        {item.sub ? (
+                          <span className="menu-item-sub">{item.sub}</span>
+                        ) : null}
+                      </span>
+                      {item.badge ? (
+                        <span className="menu-badge">{item.badge}</span>
+                      ) : null}
+                      {item.arrow ? (
+                        <Icon
+                          name="chevronRight"
+                          className="menu-arrow"
+                          strokeWidth={2}
+                        />
+                      ) : null}
+                    </a>
+                  ),
+                )}
+
+                {colIndex === 2 ? (
+                  <div className="menu-download">
+                    <div className="menu-download-head">
+                      <span className="menu-item-icon">
+                        <Icon name="device" />
+                      </span>
+                      Download App
+                    </div>
+                    <div className="menu-store-row">
+                      <a href="#" className="menu-store-btn" onClick={closeMenu}>
+                        Google Play
+                      </a>
+                      <a href="#" className="menu-store-btn" onClick={closeMenu}>
+                        App Store
+                      </a>
+                    </div>
+                    <div className="menu-social">
+                      <a href="#" aria-label="YouTube" onClick={closeMenu}>
+                        <Icon name="youtube" />
+                      </a>
+                      <a href="#" aria-label="Instagram" onClick={closeMenu}>
+                        <Icon name="instagram" />
+                      </a>
+                      <a href="#" aria-label="Facebook" onClick={closeMenu}>
+                        <Icon name="facebook" />
+                      </a>
+                      <a href="#" aria-label="WhatsApp" onClick={closeMenu}>
+                        <Icon name="whatsapp" />
+                      </a>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
             ))}
-          </nav>
+          </div>
         </div>
       </div>
       {menuOpen ? (
