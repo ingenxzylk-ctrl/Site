@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import HairGrowthCycle from './HairGrowthCycle'
 import RootCausePath from './RootCausePath'
 import './styles/home.css'
 
@@ -120,21 +121,6 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
 }
 
 /* ---------- DATA ---------- */
-const anagenPoints = [
-  { icon: 'refresh', title: 'Increase Blood Flow' },
-  { icon: 'flask', title: 'Increase Local Growth Factors' },
-  { icon: 'growth', title: 'Direct Stimulation of Hair Growth' },
-  { icon: 'shield', title: 'Manage DHT Sensitivity' },
-]
-
-const telogenPoints = [
-  { icon: 'dandruff', title: 'Inflammation' },
-  { icon: 'dna', title: 'Hormones', sub: 'Thyroid · DHT' },
-  { icon: 'stress', title: 'Increased Stress' },
-  { icon: 'nutrition', title: 'Poor Nutrition' },
-  { icon: 'capsule', title: 'Medication Induced' },
-]
-
 const causes = [
   {
     icon: 'dna',
@@ -442,16 +428,7 @@ export default function HomePage() {
     'Shop By Concern': false,
     'Shop By Root Cause': false,
   })
-  const [activeCyclePoint, setActiveCyclePoint] = useState({
-    side: 'anagen',
-    index: 0,
-  })
   const productsScrollRef = useRef(null)
-  const selectedCyclePoint =
-    activeCyclePoint.side === 'anagen'
-      ? anagenPoints[activeCyclePoint.index]
-      : telogenPoints[activeCyclePoint.index]
-
   const timelineData = timelineMode === 'male' ? timelineMale : timelineFemale
   const productList =
     activeFilter === 'all'
@@ -702,97 +679,8 @@ export default function HomePage() {
               slipping into the resting, shedding phase.
             </p>
           </Reveal>
-          <Reveal className="cycle-orbit-wrap">
-            <div className="cycle-orbit" aria-hidden="true">
-              <div className="cycle-orbit-ring">
-                <span className="cycle-orbit-label growth">Growth</span>
-                <span className="cycle-orbit-label shedding">Shedding</span>
-              </div>
-              <div className="cycle-orbit-core">
-                <div className="cycle-follicle growth-follicle">
-                  <span className="follicle-shaft" />
-                  <span className="follicle-bulb" />
-                </div>
-                <p>
-                  {activeCyclePoint.side === 'anagen' ? 'Anagen' : 'Telogen'}
-                </p>
-              </div>
-            </div>
-
-            <div className="cycle-orbit-panels">
-              <div className="cycle-side-panel anagen">
-                <h3>Anagen</h3>
-                <p className="cycle-col-sub">Growth phase · 4 levers</p>
-                <ul className="cycle-points">
-                  {anagenPoints.map((point, index) => (
-                    <li key={point.title}>
-                      <button
-                        type="button"
-                        className={`cycle-point-btn${
-                          activeCyclePoint.side === 'anagen' &&
-                          activeCyclePoint.index === index
-                            ? ' active'
-                            : ''
-                        }`}
-                        onClick={() =>
-                          setActiveCyclePoint({ side: 'anagen', index })
-                        }
-                      >
-                        <span className="cycle-point-icon">
-                          <Icon name={point.icon} />
-                        </span>
-                        <span>{point.title}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="cycle-side-panel telogen">
-                <h3>Telogen</h3>
-                <p className="cycle-col-sub">Resting / shedding phase</p>
-                <ul className="cycle-points">
-                  {telogenPoints.map((point, index) => (
-                    <li key={point.title}>
-                      <button
-                        type="button"
-                        className={`cycle-point-btn${
-                          activeCyclePoint.side === 'telogen' &&
-                          activeCyclePoint.index === index
-                            ? ' active'
-                            : ''
-                        }`}
-                        onClick={() =>
-                          setActiveCyclePoint({ side: 'telogen', index })
-                        }
-                      >
-                        <span className="cycle-point-icon">
-                          <Icon name={point.icon} />
-                        </span>
-                        <span>
-                          {point.title}
-                          {point.sub ? <small>{point.sub}</small> : null}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="cycle-active-card">
-              <span className="cycle-active-kicker">
-                {activeCyclePoint.side === 'anagen'
-                  ? 'Keep follicles growing'
-                  : 'Reduce shedding triggers'}
-              </span>
-              <h3>{selectedCyclePoint.title}</h3>
-              <p>
-                {activeCyclePoint.side === 'anagen'
-                  ? 'This growth lever helps move more follicles into anagen and keep them active longer.'
-                  : 'This trigger can push follicles into telogen early — your plan works to calm or correct it.'}
-              </p>
-            </div>
+          <Reveal>
+            <HairGrowthCycle />
           </Reveal>
         </div>
       </section>
