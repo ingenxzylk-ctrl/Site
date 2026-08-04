@@ -119,55 +119,14 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
 }
 
 /* ---------- DATA ---------- */
-const lossPathFactors = [
+/* Displayed top → bottom (path climbs from Healthy hair up to Hair loss) */
+const lossPathLeft = [
   {
-    icon: 'flask',
-    title: 'Chemicals',
+    icon: 'dandruff',
+    title: 'Infections',
     reason:
-      'Harsh dyes, straighteners, and pollution irritate the scalp and weaken the follicle barrier over time.',
-    tip: 'Switch to gentler formulas and protect your scalp from daily chemical exposure.',
-  },
-  {
-    icon: 'dna',
-    title: 'Genetics',
-    reason:
-      'Inherited DHT sensitivity can gradually miniaturize follicles, especially at the crown and hairline.',
-    tip: 'Early assessment helps tailor treatment before density loss becomes harder to reverse.',
-  },
-  {
-    icon: 'capsule',
-    title: 'Drugs',
-    reason:
-      'Certain medications can push follicles into a resting phase and trigger temporary shedding.',
-    tip: 'Review prescriptions with a clinician so your hair plan accounts for medication effects.',
-  },
-  {
-    icon: 'stress',
-    title: 'Stress',
-    reason:
-      'Physical or emotional stress elevates cortisol and can force healthy strands into telogen early.',
-    tip: 'Sleep, recovery, and routine coaching help calm stress-linked shedding cycles.',
-  },
-  {
-    icon: 'spray',
-    title: 'Smoking',
-    reason:
-      'Nicotine reduces scalp blood flow and starves follicles of oxygen and nutrients they need to grow.',
-    tip: 'Improving circulation support is a key part of rebuilding healthier growth conditions.',
-  },
-  {
-    icon: 'nutrition',
-    title: 'Diet',
-    reason:
-      'Low protein, iron, or micronutrient intake shows up on the scalp before other body signs appear.',
-    tip: 'A nutrition plan aligned to your labs helps refill what follicles are missing.',
-  },
-  {
-    icon: 'metabolism',
-    title: 'Aging',
-    reason:
-      'With age, scalp collagen and elastin decline, so follicles lose grip and growth slows.',
-    tip: 'Targeted actives and consistent care help support follicle strength as you age.',
+      'Fungal or bacterial scalp issues create inflammation that interrupts the normal growth cycle.',
+    tip: 'Calming the scalp environment first makes regrowth treatments more effective.',
   },
   {
     icon: 'users',
@@ -177,18 +136,63 @@ const lossPathFactors = [
     tip: 'Small daily habit shifts protect strands while your treatment works underneath.',
   },
   {
-    icon: 'dandruff',
-    title: 'Infections',
+    icon: 'spray',
+    title: 'Smoking',
     reason:
-      'Fungal or bacterial scalp issues create inflammation that interrupts the normal growth cycle.',
-    tip: 'Calming the scalp environment first makes regrowth treatments more effective.',
+      'Nicotine reduces scalp blood flow and starves follicles of oxygen and nutrients they need to grow.',
+    tip: 'Improving circulation support is a key part of rebuilding healthier growth conditions.',
   },
+  {
+    icon: 'stress',
+    title: 'Stress',
+    reason:
+      'Physical or emotional stress elevates cortisol and can force healthy strands into telogen early.',
+    tip: 'Sleep, recovery, and routine coaching help calm stress-linked shedding cycles.',
+  },
+  {
+    icon: 'dna',
+    title: 'Genetics',
+    reason:
+      'Inherited DHT sensitivity can gradually miniaturize follicles, especially at the crown and hairline.',
+    tip: 'Early assessment helps tailor treatment before density loss becomes harder to reverse.',
+  },
+]
+
+const lossPathRight = [
   {
     icon: 'heartChat',
     title: 'Menopause',
     reason:
       'Hormonal shifts around menopause can tip the balance toward thinning and wider parting.',
     tip: 'A hormone-aware plan helps stabilize shedding and support thicker-looking density.',
+  },
+  {
+    icon: 'metabolism',
+    title: 'Aging',
+    reason:
+      'With age, scalp collagen and elastin decline, so follicles lose grip and growth slows.',
+    tip: 'Targeted actives and consistent care help support follicle strength as you age.',
+  },
+  {
+    icon: 'nutrition',
+    title: 'Diet',
+    reason:
+      'Low protein, iron, or micronutrient intake shows up on the scalp before other body signs appear.',
+    tip: 'A nutrition plan aligned to your labs helps refill what follicles are missing.',
+  },
+  {
+    icon: 'capsule',
+    title: 'Drugs',
+    reason:
+      'Certain medications can push follicles into a resting phase and trigger temporary shedding.',
+    tip: 'Review prescriptions with a clinician so your hair plan accounts for medication effects.',
+  },
+  {
+    icon: 'flask',
+    title: 'Chemicals',
+    reason:
+      'Harsh dyes, straighteners, and pollution irritate the scalp and weaken the follicle barrier over time.',
+    tip: 'Switch to gentler formulas and protect your scalp from daily chemical exposure.',
   },
 ]
 
@@ -514,13 +518,12 @@ export default function HomePage() {
     'Shop By Concern': false,
     'Shop By Root Cause': false,
   })
-  const [activeFactor, setActiveFactor] = useState(0)
+  const [factorPopup, setFactorPopup] = useState(null)
   const [activeCyclePoint, setActiveCyclePoint] = useState({
     side: 'anagen',
     index: 0,
   })
   const productsScrollRef = useRef(null)
-  const selectedFactor = lossPathFactors[activeFactor]
   const selectedCyclePoint =
     activeCyclePoint.side === 'anagen'
       ? anagenPoints[activeCyclePoint.index]
@@ -553,11 +556,20 @@ export default function HomePage() {
   }, [menuOpen])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    document.body.style.overflow = menuOpen || factorPopup ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
-  }, [menuOpen])
+  }, [menuOpen, factorPopup])
+
+  useEffect(() => {
+    if (!factorPopup) return undefined
+    const onKey = (event) => {
+      if (event.key === 'Escape') setFactorPopup(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [factorPopup])
 
   const scrollProducts = (delta) => {
     productsScrollRef.current?.scrollBy({ left: delta, behavior: 'smooth' })
@@ -774,49 +786,80 @@ export default function HomePage() {
               Spotting them early is the first step to reversing the slide.
             </p>
           </Reveal>
-          <Reveal className="loss-path-board">
-            <div className="loss-path-track">
-              <div className="loss-path-end start">
-                <span className="loss-path-pill good">Healthy hair</span>
-              </div>
-              <div className="loss-path-factors" role="tablist" aria-label="Hair fall triggers">
-                {lossPathFactors.map((factor, index) => (
+          <Reveal className="loss-map">
+            <div className="loss-map-end top">
+              <span className="loss-path-pill bad">Hair loss</span>
+            </div>
+
+            <div className="loss-map-grid" aria-label="Hair fall triggers path">
+              <div className="loss-map-col">
+                {lossPathLeft.map((factor) => (
                   <button
                     type="button"
-                    className={`loss-factor${activeFactor === index ? ' active' : ''}`}
+                    className={`loss-node${factorPopup?.title === factor.title ? ' active' : ''}`}
                     key={factor.title}
-                    role="tab"
-                    aria-selected={activeFactor === index}
-                    onClick={() => setActiveFactor(index)}
+                    onClick={() => setFactorPopup(factor)}
                   >
-                    <span className="loss-factor-icon">
+                    <span className="loss-node-icon">
                       <Icon name={factor.icon} />
                     </span>
-                    <span>{factor.title}</span>
+                    <span className="loss-node-label">{factor.title}</span>
                   </button>
                 ))}
               </div>
-              <div className="loss-path-end end">
-                <span className="loss-path-pill bad">Hair loss</span>
+              <div className="loss-map-col">
+                {lossPathRight.map((factor) => (
+                  <button
+                    type="button"
+                    className={`loss-node${factorPopup?.title === factor.title ? ' active' : ''}`}
+                    key={factor.title}
+                    onClick={() => setFactorPopup(factor)}
+                  >
+                    <span className="loss-node-icon">
+                      <Icon name={factor.icon} />
+                    </span>
+                    <span className="loss-node-label">{factor.title}</span>
+                  </button>
+                ))}
               </div>
             </div>
 
-            <div className="loss-detail" role="tabpanel">
-              <div className="loss-detail-icon">
-                <Icon name={selectedFactor.icon} />
-              </div>
-              <div className="loss-detail-copy">
-                <p className="loss-detail-kicker">Why it matters</p>
-                <h3>{selectedFactor.title}</h3>
-                <p className="loss-detail-reason">{selectedFactor.reason}</p>
-                <p className="loss-detail-tip">
-                  <strong>What helps:</strong> {selectedFactor.tip}
-                </p>
-              </div>
+            <div className="loss-map-end bottom">
+              <span className="loss-path-pill good">Healthy hair</span>
             </div>
           </Reveal>
         </div>
       </section>
+
+      {factorPopup ? (
+        <div className="loss-modal" role="dialog" aria-modal="true" aria-label={factorPopup.title}>
+          <button
+            type="button"
+            className="loss-modal-backdrop"
+            aria-label="Close details"
+            onClick={() => setFactorPopup(null)}
+          />
+          <div className="loss-modal-card">
+            <button
+              type="button"
+              className="loss-modal-close"
+              aria-label="Close"
+              onClick={() => setFactorPopup(null)}
+            >
+              <Icon name="close" strokeWidth={2} />
+            </button>
+            <div className="loss-modal-icon">
+              <Icon name={factorPopup.icon} />
+            </div>
+            <p className="loss-modal-kicker">Why it matters</p>
+            <h3>{factorPopup.title}</h3>
+            <p className="loss-modal-reason">{factorPopup.reason}</p>
+            <p className="loss-modal-tip">
+              <strong>What helps:</strong> {factorPopup.tip}
+            </p>
+          </div>
+        </div>
+      ) : null}
 
       {/* ANAGEN / TELOGEN */}
       <section className="cycle-section bg-cream" id="cycle">
