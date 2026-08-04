@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import RootCausePath from './RootCausePath'
 import './styles/home.css'
 
 const bottleImg = '/zylk-bottle.png'
@@ -119,83 +120,6 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
 }
 
 /* ---------- DATA ---------- */
-/* Flowchart: Healthy hair → two columns → Hair loss */
-const lossPathLeft = [
-  {
-    icon: 'dna',
-    title: 'Genetic',
-    reason:
-      'Inherited DHT sensitivity can gradually miniaturize follicles, especially at the crown and hairline.',
-    tip: 'Early assessment helps tailor treatment before density loss becomes harder to reverse.',
-  },
-  {
-    icon: 'stress',
-    title: 'Stress',
-    reason:
-      'Physical or emotional stress elevates cortisol and can force healthy strands into telogen early.',
-    tip: 'Sleep, recovery, and routine coaching help calm stress-linked shedding cycles.',
-  },
-  {
-    icon: 'nutrition',
-    title: 'Diet',
-    reason:
-      'Low protein, iron, or micronutrient intake shows up on the scalp before other body signs appear.',
-    tip: 'A nutrition plan aligned to your labs helps refill what follicles are missing.',
-  },
-  {
-    icon: 'users',
-    title: 'Lifestyle',
-    reason:
-      'Heat styling, tight hairstyles, poor sleep, and product buildup all add mechanical and chemical stress.',
-    tip: 'Small daily habit shifts protect strands while your treatment works underneath.',
-  },
-  {
-    icon: 'heartChat',
-    title: 'Menopause',
-    reason:
-      'Hormonal shifts around menopause can tip the balance toward thinning and wider parting.',
-    tip: 'A hormone-aware plan helps stabilize shedding and support thicker-looking density.',
-  },
-]
-
-const lossPathRight = [
-  {
-    icon: 'flask',
-    title: 'Chemical',
-    reason:
-      'Harsh dyes, straighteners, and pollution irritate the scalp and weaken the follicle barrier over time.',
-    tip: 'Switch to gentler formulas and protect your scalp from daily chemical exposure.',
-  },
-  {
-    icon: 'capsule',
-    title: 'Drug',
-    reason:
-      'Certain medications can push follicles into a resting phase and trigger temporary shedding.',
-    tip: 'Review prescriptions with a clinician so your hair plan accounts for medication effects.',
-  },
-  {
-    icon: 'spray',
-    title: 'Smoking',
-    reason:
-      'Nicotine reduces scalp blood flow and starves follicles of oxygen and nutrients they need to grow.',
-    tip: 'Improving circulation support is a key part of rebuilding healthier growth conditions.',
-  },
-  {
-    icon: 'metabolism',
-    title: 'Aging',
-    reason:
-      'With age, scalp collagen and elastin decline, so follicles lose grip and growth slows.',
-    tip: 'Targeted actives and consistent care help support follicle strength as you age.',
-  },
-  {
-    icon: 'dandruff',
-    title: 'Infection',
-    reason:
-      'Fungal or bacterial scalp issues create inflammation that interrupts the normal growth cycle.',
-    tip: 'Calming the scalp environment first makes regrowth treatments more effective.',
-  },
-]
-
 const anagenPoints = [
   { icon: 'refresh', title: 'Increase Blood Flow' },
   { icon: 'flask', title: 'Increase Local Growth Factors' },
@@ -518,7 +442,6 @@ export default function HomePage() {
     'Shop By Concern': false,
     'Shop By Root Cause': false,
   })
-  const [factorPopup, setFactorPopup] = useState(null)
   const [activeCyclePoint, setActiveCyclePoint] = useState({
     side: 'anagen',
     index: 0,
@@ -556,20 +479,11 @@ export default function HomePage() {
   }, [menuOpen])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen || factorPopup ? 'hidden' : ''
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
-  }, [menuOpen, factorPopup])
-
-  useEffect(() => {
-    if (!factorPopup) return undefined
-    const onKey = (event) => {
-      if (event.key === 'Escape') setFactorPopup(null)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [factorPopup])
+  }, [menuOpen])
 
   const scrollProducts = (delta) => {
     productsScrollRef.current?.scrollBy({ left: delta, behavior: 'smooth' })
@@ -773,98 +687,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* LOSS PATH */}
-      <section className="loss-path" id="loss-path">
-        <div className="wrap">
-          <Reveal className="section-head center">
-            <span className="eyebrow" style={{ justifyContent: 'center' }}>
-              Why Hair Falls
-            </span>
-            <h2>From healthy hair to hair loss</h2>
-            <p>
-              Multiple triggers push hair from a healthy state toward thinning.
-              Spotting them early is the first step to reversing the slide.
-            </p>
-          </Reveal>
-          <Reveal className="loss-flow">
-            <div className="loss-flow-start">
-              <span className="loss-chip start">Healthy hair</span>
-              <span className="loss-flow-branch" aria-hidden="true" />
-            </div>
-
-            <div className="loss-flow-cols" aria-label="Hair fall triggers path">
-              <div className="loss-flow-col mint">
-                {lossPathLeft.map((factor, index) => (
-                  <div className="loss-flow-step" key={factor.title}>
-                    {index > 0 ? (
-                      <span className="loss-flow-arrow" aria-hidden="true" />
-                    ) : null}
-                    <button
-                      type="button"
-                      className={`loss-chip node mint${factorPopup?.title === factor.title ? ' active' : ''}`}
-                      onClick={() => setFactorPopup(factor)}
-                    >
-                      {factor.title}
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="loss-flow-col peach">
-                {lossPathRight.map((factor, index) => (
-                  <div className="loss-flow-step" key={factor.title}>
-                    {index > 0 ? (
-                      <span className="loss-flow-arrow" aria-hidden="true" />
-                    ) : null}
-                    <button
-                      type="button"
-                      className={`loss-chip node peach${factorPopup?.title === factor.title ? ' active' : ''}`}
-                      onClick={() => setFactorPopup(factor)}
-                    >
-                      {factor.title}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="loss-flow-end">
-              <span className="loss-flow-merge" aria-hidden="true" />
-              <span className="loss-chip end">Hair loss</span>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {factorPopup ? (
-        <div className="loss-modal" role="dialog" aria-modal="true" aria-label={factorPopup.title}>
-          <button
-            type="button"
-            className="loss-modal-backdrop"
-            aria-label="Close details"
-            onClick={() => setFactorPopup(null)}
-          />
-          <div className="loss-modal-card">
-            <button
-              type="button"
-              className="loss-modal-close"
-              aria-label="Close"
-              onClick={() => setFactorPopup(null)}
-            >
-              <Icon name="close" strokeWidth={2} />
-            </button>
-            <div className="loss-modal-icon">
-              <Icon name={factorPopup.icon} />
-            </div>
-            <p className="loss-modal-kicker">Why it matters</p>
-            <h3>{factorPopup.title}</h3>
-            <p className="loss-modal-reason">{factorPopup.reason}</p>
-            <p className="loss-modal-tip">
-              <strong>What helps:</strong> {factorPopup.tip}
-            </p>
-          </div>
-        </div>
-      ) : null}
+      <RootCausePath />
 
       {/* ANAGEN / TELOGEN */}
       <section className="cycle-section bg-cream" id="cycle">
