@@ -120,16 +120,76 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
 
 /* ---------- DATA ---------- */
 const lossPathFactors = [
-  { icon: 'flask', title: 'Chemicals' },
-  { icon: 'dna', title: 'Genetics' },
-  { icon: 'capsule', title: 'Drugs' },
-  { icon: 'stress', title: 'Stress' },
-  { icon: 'spray', title: 'Smoking' },
-  { icon: 'nutrition', title: 'Diet' },
-  { icon: 'metabolism', title: 'Aging' },
-  { icon: 'users', title: 'Lifestyle' },
-  { icon: 'dandruff', title: 'Infections' },
-  { icon: 'heartChat', title: 'Menopause' },
+  {
+    icon: 'flask',
+    title: 'Chemicals',
+    reason:
+      'Harsh dyes, straighteners, and pollution irritate the scalp and weaken the follicle barrier over time.',
+    tip: 'Switch to gentler formulas and protect your scalp from daily chemical exposure.',
+  },
+  {
+    icon: 'dna',
+    title: 'Genetics',
+    reason:
+      'Inherited DHT sensitivity can gradually miniaturize follicles, especially at the crown and hairline.',
+    tip: 'Early assessment helps tailor treatment before density loss becomes harder to reverse.',
+  },
+  {
+    icon: 'capsule',
+    title: 'Drugs',
+    reason:
+      'Certain medications can push follicles into a resting phase and trigger temporary shedding.',
+    tip: 'Review prescriptions with a clinician so your hair plan accounts for medication effects.',
+  },
+  {
+    icon: 'stress',
+    title: 'Stress',
+    reason:
+      'Physical or emotional stress elevates cortisol and can force healthy strands into telogen early.',
+    tip: 'Sleep, recovery, and routine coaching help calm stress-linked shedding cycles.',
+  },
+  {
+    icon: 'spray',
+    title: 'Smoking',
+    reason:
+      'Nicotine reduces scalp blood flow and starves follicles of oxygen and nutrients they need to grow.',
+    tip: 'Improving circulation support is a key part of rebuilding healthier growth conditions.',
+  },
+  {
+    icon: 'nutrition',
+    title: 'Diet',
+    reason:
+      'Low protein, iron, or micronutrient intake shows up on the scalp before other body signs appear.',
+    tip: 'A nutrition plan aligned to your labs helps refill what follicles are missing.',
+  },
+  {
+    icon: 'metabolism',
+    title: 'Aging',
+    reason:
+      'With age, scalp collagen and elastin decline, so follicles lose grip and growth slows.',
+    tip: 'Targeted actives and consistent care help support follicle strength as you age.',
+  },
+  {
+    icon: 'users',
+    title: 'Lifestyle',
+    reason:
+      'Heat styling, tight hairstyles, poor sleep, and product buildup all add mechanical and chemical stress.',
+    tip: 'Small daily habit shifts protect strands while your treatment works underneath.',
+  },
+  {
+    icon: 'dandruff',
+    title: 'Infections',
+    reason:
+      'Fungal or bacterial scalp issues create inflammation that interrupts the normal growth cycle.',
+    tip: 'Calming the scalp environment first makes regrowth treatments more effective.',
+  },
+  {
+    icon: 'heartChat',
+    title: 'Menopause',
+    reason:
+      'Hormonal shifts around menopause can tip the balance toward thinning and wider parting.',
+    tip: 'A hormone-aware plan helps stabilize shedding and support thicker-looking density.',
+  },
 ]
 
 const anagenPoints = [
@@ -454,7 +514,17 @@ export default function HomePage() {
     'Shop By Concern': false,
     'Shop By Root Cause': false,
   })
+  const [activeFactor, setActiveFactor] = useState(0)
+  const [activeCyclePoint, setActiveCyclePoint] = useState({
+    side: 'anagen',
+    index: 0,
+  })
   const productsScrollRef = useRef(null)
+  const selectedFactor = lossPathFactors[activeFactor]
+  const selectedCyclePoint =
+    activeCyclePoint.side === 'anagen'
+      ? anagenPoints[activeCyclePoint.index]
+      : telogenPoints[activeCyclePoint.index]
 
   const timelineData = timelineMode === 'male' ? timelineMale : timelineFemale
   const productList =
@@ -704,22 +774,45 @@ export default function HomePage() {
               Spotting them early is the first step to reversing the slide.
             </p>
           </Reveal>
-          <Reveal className="loss-path-track">
-            <div className="loss-path-end start">
-              <span className="loss-path-pill good">Healthy hair</span>
+          <Reveal className="loss-path-board">
+            <div className="loss-path-track">
+              <div className="loss-path-end start">
+                <span className="loss-path-pill good">Healthy hair</span>
+              </div>
+              <div className="loss-path-factors" role="tablist" aria-label="Hair fall triggers">
+                {lossPathFactors.map((factor, index) => (
+                  <button
+                    type="button"
+                    className={`loss-factor${activeFactor === index ? ' active' : ''}`}
+                    key={factor.title}
+                    role="tab"
+                    aria-selected={activeFactor === index}
+                    onClick={() => setActiveFactor(index)}
+                  >
+                    <span className="loss-factor-icon">
+                      <Icon name={factor.icon} />
+                    </span>
+                    <span>{factor.title}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="loss-path-end end">
+                <span className="loss-path-pill bad">Hair loss</span>
+              </div>
             </div>
-            <div className="loss-path-factors">
-              {lossPathFactors.map((factor) => (
-                <div className="loss-factor" key={factor.title}>
-                  <span className="loss-factor-icon">
-                    <Icon name={factor.icon} />
-                  </span>
-                  <span>{factor.title}</span>
-                </div>
-              ))}
-            </div>
-            <div className="loss-path-end end">
-              <span className="loss-path-pill bad">Hair loss</span>
+
+            <div className="loss-detail" role="tabpanel">
+              <div className="loss-detail-icon">
+                <Icon name={selectedFactor.icon} />
+              </div>
+              <div className="loss-detail-copy">
+                <p className="loss-detail-kicker">Why it matters</p>
+                <h3>{selectedFactor.title}</h3>
+                <p className="loss-detail-reason">{selectedFactor.reason}</p>
+                <p className="loss-detail-tip">
+                  <strong>What helps:</strong> {selectedFactor.tip}
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -738,49 +831,96 @@ export default function HomePage() {
               slipping into the resting, shedding phase.
             </p>
           </Reveal>
-          <Reveal className="cycle-layout">
-            <div className="cycle-col anagen">
-              <h3>Anagen</h3>
-              <p className="cycle-col-sub">Growth phase</p>
-              <div className="cycle-follicle growth-follicle" aria-hidden="true">
-                <span className="follicle-shaft" />
-                <span className="follicle-bulb" />
+          <Reveal className="cycle-orbit-wrap">
+            <div className="cycle-orbit" aria-hidden="true">
+              <div className="cycle-orbit-ring">
+                <span className="cycle-orbit-label growth">Growth</span>
+                <span className="cycle-orbit-label shedding">Shedding</span>
               </div>
-              <ul className="cycle-points">
-                {anagenPoints.map((point) => (
-                  <li key={point.title}>
-                    <span className="cycle-point-icon">
-                      <Icon name={point.icon} />
-                    </span>
-                    <span>{point.title}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="cycle-ring" aria-hidden="true">
-              <span className="cycle-arrow up">Growth</span>
-              <span className="cycle-arrow down">Shedding</span>
-            </div>
-            <div className="cycle-col telogen">
-              <h3>Telogen</h3>
-              <p className="cycle-col-sub">Resting / shedding phase</p>
-              <div className="cycle-follicle shed-follicle" aria-hidden="true">
-                <span className="follicle-shaft thin" />
-                <span className="follicle-bulb raised" />
+              <div className="cycle-orbit-core">
+                <div className="cycle-follicle growth-follicle">
+                  <span className="follicle-shaft" />
+                  <span className="follicle-bulb" />
+                </div>
+                <p>
+                  {activeCyclePoint.side === 'anagen' ? 'Anagen' : 'Telogen'}
+                </p>
               </div>
-              <ul className="cycle-points">
-                {telogenPoints.map((point) => (
-                  <li key={point.title}>
-                    <span className="cycle-point-icon">
-                      <Icon name={point.icon} />
-                    </span>
-                    <span>
-                      {point.title}
-                      {point.sub ? <small>{point.sub}</small> : null}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+            </div>
+
+            <div className="cycle-orbit-panels">
+              <div className="cycle-side-panel anagen">
+                <h3>Anagen</h3>
+                <p className="cycle-col-sub">Growth phase · 4 levers</p>
+                <ul className="cycle-points">
+                  {anagenPoints.map((point, index) => (
+                    <li key={point.title}>
+                      <button
+                        type="button"
+                        className={`cycle-point-btn${
+                          activeCyclePoint.side === 'anagen' &&
+                          activeCyclePoint.index === index
+                            ? ' active'
+                            : ''
+                        }`}
+                        onClick={() =>
+                          setActiveCyclePoint({ side: 'anagen', index })
+                        }
+                      >
+                        <span className="cycle-point-icon">
+                          <Icon name={point.icon} />
+                        </span>
+                        <span>{point.title}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="cycle-side-panel telogen">
+                <h3>Telogen</h3>
+                <p className="cycle-col-sub">Resting / shedding phase</p>
+                <ul className="cycle-points">
+                  {telogenPoints.map((point, index) => (
+                    <li key={point.title}>
+                      <button
+                        type="button"
+                        className={`cycle-point-btn${
+                          activeCyclePoint.side === 'telogen' &&
+                          activeCyclePoint.index === index
+                            ? ' active'
+                            : ''
+                        }`}
+                        onClick={() =>
+                          setActiveCyclePoint({ side: 'telogen', index })
+                        }
+                      >
+                        <span className="cycle-point-icon">
+                          <Icon name={point.icon} />
+                        </span>
+                        <span>
+                          {point.title}
+                          {point.sub ? <small>{point.sub}</small> : null}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="cycle-active-card">
+              <span className="cycle-active-kicker">
+                {activeCyclePoint.side === 'anagen'
+                  ? 'Keep follicles growing'
+                  : 'Reduce shedding triggers'}
+              </span>
+              <h3>{selectedCyclePoint.title}</h3>
+              <p>
+                {activeCyclePoint.side === 'anagen'
+                  ? 'This growth lever helps move more follicles into anagen and keep them active longer.'
+                  : 'This trigger can push follicles into telogen early — your plan works to calm or correct it.'}
+              </p>
             </div>
           </Reveal>
         </div>
