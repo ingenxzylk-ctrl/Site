@@ -564,33 +564,41 @@ header.nav.nav-menu-open .nav-inner {
   position: relative;
   z-index: 3;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-end;
   min-height: 0;
   overflow: visible;
-  padding: 96px 28px 48px 8px;
+  padding: 110px 36px 56px 12px;
   background: transparent;
 }
 
 .hero-product {
   width: 100%;
-  max-width: 520px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  max-width: 460px;
+  display: grid;
+  grid-template-columns: minmax(140px, 0.95fr) minmax(150px, 1fr);
+  grid-template-areas:
+    'regrow regrow'
+    'bottle progress';
+  column-gap: 20px;
+  row-gap: 16px;
+  align-items: end;
 }
 
 .hero-regrow {
+  grid-area: regrow;
   text-align: left;
+  margin-bottom: 4px;
 }
 
 .hero-regrow-title {
-  font-family: var(--sans);
-  font-size: clamp(28px, 3vw, 36px);
-  font-weight: 700;
+  font-family: var(--serif);
+  font-size: clamp(30px, 3.2vw, 40px);
+  font-weight: 600;
   color: var(--cream);
   letter-spacing: -0.02em;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  line-height: 1.05;
 }
 
 .hero-regrow-circle {
@@ -606,72 +614,86 @@ header.nav.nav-menu-open .nav-inner {
 }
 
 .hero-product-stage {
-  display: grid;
-  grid-template-columns: minmax(120px, 0.9fr) minmax(160px, 1.1fr);
-  gap: 18px;
-  align-items: end;
+  display: contents;
 }
 
 .hero-bottle-wrap {
+  grid-area: bottle;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+  padding-top: 28px;
 }
 
 .hero-online {
   position: absolute;
-  top: 8px;
-  right: -8px;
+  top: 0;
+  left: 58%;
   z-index: 2;
-  color: var(--cream);
-  font-size: 12px;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
   font-weight: 600;
   white-space: nowrap;
+  line-height: 1.1;
 }
 
 .hero-online-arrow {
   display: block;
-  width: 34px;
-  height: 18px;
+  width: 42px;
+  height: 28px;
   margin-top: 2px;
-  margin-left: 8px;
-  border-left: 1.5px solid rgba(247, 244, 236, 0.75);
-  border-bottom: 1.5px solid rgba(247, 244, 236, 0.75);
-  border-bottom-left-radius: 16px;
-  transform: rotate(-8deg);
+  margin-left: 10px;
+  border-left: 1.5px solid var(--gold);
+  border-bottom: 1.5px solid var(--gold);
+  border-bottom-left-radius: 22px;
+  transform: rotate(-18deg);
 }
 
 .hero-bottle {
-  width: min(100%, 168px);
+  width: min(100%, 190px);
   height: auto;
   display: block;
   background: transparent;
-  filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 26px 22px rgba(0, 0, 0, 0.42));
+  position: relative;
+  z-index: 1;
 }
 
 .hero-progress {
+  grid-area: progress;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding-left: 18px;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 8px 0 8px 22px;
+  min-height: 340px;
 }
 
 .hero-progress-line {
   position: absolute;
-  left: 4px;
-  top: 18px;
-  bottom: 28px;
+  left: 6px;
+  top: 24px;
+  bottom: 36px;
   width: 2px;
-  background: rgba(247, 244, 236, 0.35);
+  background: linear-gradient(
+    to bottom,
+    rgba(201, 162, 75, 0.15),
+    var(--gold) 20%,
+    var(--gold) 80%,
+    rgba(201, 162, 75, 0.2)
+  );
   border-radius: 999px;
 }
 
 .hero-progress-item {
   position: relative;
   display: grid;
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: 72px auto;
   gap: 12px;
   align-items: center;
 }
@@ -679,27 +701,28 @@ header.nav.nav-menu-open .nav-inner {
 .hero-progress-item::before {
   content: '';
   position: absolute;
-  left: -16px;
-  width: 10px;
-  height: 10px;
+  left: -19px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  background: var(--cream);
-  box-shadow: 0 0 0 3px rgba(247, 244, 236, 0.18);
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(11, 61, 46, 0.55);
 }
 
 .hero-progress-item img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
   object-fit: cover;
-  border: 2px solid rgba(247, 244, 236, 0.35);
-  box-shadow: 0 8px 18px -10px rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(247, 244, 236, 0.28);
+  box-shadow: 0 10px 20px -12px rgba(0, 0, 0, 0.55);
 }
 
 .hero-progress-item span {
   color: var(--cream);
   font-size: 13px;
   font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .trust-row {
@@ -2144,17 +2167,35 @@ footer {
     justify-content: center;
   }
 
-  .hero-product {
-    max-width: 480px;
-    margin: 0 auto;
+  .hero-visual {
+    justify-content: center;
+    padding: 88px 20px 24px;
   }
 
-  .hero-product-stage {
-    grid-template-columns: 0.85fr 1.15fr;
+  .hero-product {
+    max-width: 420px;
+    margin: 0 auto;
+    grid-template-columns: minmax(120px, 0.9fr) minmax(140px, 1.1fr);
+    column-gap: 14px;
   }
 
   .hero-bottle {
-    width: min(100%, 140px);
+    width: min(100%, 150px);
+  }
+
+  .hero-progress {
+    min-height: 280px;
+    gap: 12px;
+  }
+
+  .hero-progress-item {
+    grid-template-columns: 60px auto;
+  }
+
+  .hero-progress-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
   }
 
   .hero-copy {
@@ -2265,27 +2306,37 @@ footer {
     padding: 80px 16px 12px;
   }
 
-  .hero-product-stage {
-    grid-template-columns: 1fr 1.2fr;
-    gap: 12px;
+  .hero-product {
+    grid-template-columns: minmax(110px, 0.95fr) minmax(120px, 1.05fr);
+    max-width: 360px;
   }
 
   .hero-bottle {
-    width: min(100%, 120px);
+    width: min(100%, 128px);
+  }
+
+  .hero-progress {
+    min-height: 240px;
+    padding-left: 18px;
   }
 
   .hero-progress-item {
-    grid-template-columns: 52px 1fr;
+    grid-template-columns: 52px auto;
   }
 
   .hero-progress-item img {
     width: 52px;
     height: 52px;
+    border-radius: 10px;
   }
 
   .hero-online {
-    right: 0;
-    font-size: 11px;
+    left: 52%;
+    font-size: 13px;
+  }
+
+  .hero-regrow-title {
+    font-size: 28px;
   }
 
   .hero-copy {
