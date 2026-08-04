@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import './styles/home.css'
 
-const heroCouple = '/hero-couple.png'
+const bottleImg = '/zylk-bottle.png'
+const progressImgs = [
+  { src: '/progress-1mo.png', label: '1 mo.' },
+  { src: '/progress-2-4mo.png', label: '2–4 mo.' },
+  { src: '/progress-4-6mo.png', label: '4–6 mo.' },
+  { src: '/progress-6mo.png', label: '6+ mo.' },
+]
 
 /* ---------- ICONS ---------- */
 const icons = {
@@ -88,6 +94,10 @@ const icons = {
     '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
   caret:
     '<polyline points="6 9 12 15 18 9"/>',
+  growth:
+    '<path d="M12 20V10"/><path d="M8 14c2-6 4-8 4-8s2 2 4 8"/><path d="M7 20h10"/>',
+  shield:
+    '<path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/><path d="M9.5 12l1.8 1.8L15 10"/>',
 }
 
 function Icon({ name, className, strokeWidth = 1.6 }) {
@@ -109,36 +119,64 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
 }
 
 /* ---------- DATA ---------- */
+const lossPathFactors = [
+  { icon: 'flask', title: 'Chemicals' },
+  { icon: 'dna', title: 'Genetics' },
+  { icon: 'capsule', title: 'Drugs' },
+  { icon: 'stress', title: 'Stress' },
+  { icon: 'spray', title: 'Smoking' },
+  { icon: 'nutrition', title: 'Diet' },
+  { icon: 'metabolism', title: 'Aging' },
+  { icon: 'users', title: 'Lifestyle' },
+  { icon: 'dandruff', title: 'Infections' },
+  { icon: 'heartChat', title: 'Menopause' },
+]
+
+const anagenPoints = [
+  { icon: 'refresh', title: 'Increase Blood Flow' },
+  { icon: 'flask', title: 'Increase Local Growth Factors' },
+  { icon: 'growth', title: 'Direct Stimulation of Hair Growth' },
+  { icon: 'shield', title: 'Manage DHT Sensitivity' },
+]
+
+const telogenPoints = [
+  { icon: 'dandruff', title: 'Inflammation' },
+  { icon: 'dna', title: 'Hormones', sub: 'Thyroid · DHT' },
+  { icon: 'stress', title: 'Increased Stress' },
+  { icon: 'nutrition', title: 'Poor Nutrition' },
+  { icon: 'capsule', title: 'Medication Induced' },
+]
+
 const causes = [
   {
     icon: 'dna',
-    title: 'Genetics',
-    desc: 'Androgenetic patterns inherited from either side of the family can shrink follicles over time.',
-  },
-  {
-    icon: 'metabolism',
-    title: 'Metabolism',
-    desc: "Thyroid and hormonal shifts change how nutrients travel from your body to your scalp.",
+    title: 'Hormones',
+    desc: 'DHT sensitivity can be caused by genetics, stress, poor diet, and toxins.',
   },
   {
     icon: 'stress',
     title: 'Stress',
-    desc: 'Cortisol spikes can push healthy follicles into a resting phase, prematurely.',
-  },
-  {
-    icon: 'dandruff',
-    title: 'Dandruff',
-    desc: 'An inflamed scalp struggles to hold onto hair long enough for it to fully grow.',
-  },
-  {
-    icon: 'gut',
-    title: 'Gut Issues',
-    desc: 'Poor nutrient absorption starves follicles of the building blocks they need most.',
+    desc: 'Physical or emotional stress like giving birth or a demanding job.',
   },
   {
     icon: 'nutrition',
     title: 'Nutrition',
-    desc: 'Iron, protein and biotin gaps often show up on your scalp before anywhere else.',
+    desc: 'Nutrient gaps that can result from a poor diet or a compromised gut microbiome.',
+  },
+  {
+    icon: 'users',
+    title: 'Lifestyle',
+    desc: 'Refers to your surroundings, the products you use, and the foods you eat.',
+  },
+  {
+    icon: 'metabolism',
+    title: 'Metabolism',
+    desc: 'Influences how hair follicles receive nutrients from the body.',
+  },
+  {
+    icon: 'refresh',
+    title: 'Aging',
+    desc: "Aging reduces the scalp's collagen and elastin, weakening its grip on hair strands.",
   },
 ]
 
@@ -326,7 +364,7 @@ const filterDefs = [
 ]
 
 const trustItems = [
-  { icon: 'users', num: '50,000+', label: ' assessed' },
+  { icon: 'users', num: '1,000+', label: ' assessed' },
   { icon: 'checkCircle', num: '92%', label: ' visible regrowth*' },
   { icon: 'starOutline', num: '4.8/5', label: ' from 12,000+ users' },
 ]
@@ -607,11 +645,34 @@ export default function HomePage() {
               </div>
             </div>
             <div className="hero-visual">
-              <img
-                src={heroCouple}
-                alt="Couple with healthy hair smiling"
-                className="hero-image"
-              />
+              <div className="hero-product">
+                <div className="hero-regrow">
+                  <p className="hero-regrow-title">Regrow hair</p>
+                  <span className="hero-regrow-circle">in 3–6 months.*</span>
+                </div>
+                <div className="hero-product-stage">
+                  <div className="hero-bottle-wrap">
+                    <p className="hero-online">
+                      100% online
+                      <span className="hero-online-arrow" aria-hidden="true" />
+                    </p>
+                    <img
+                      src={bottleImg}
+                      alt="Zylk Health hair serum bottle"
+                      className="hero-bottle"
+                    />
+                  </div>
+                  <div className="hero-progress">
+                    <div className="hero-progress-line" aria-hidden="true" />
+                    {progressImgs.map((item) => (
+                      <div className="hero-progress-item" key={item.label}>
+                        <img src={item.src} alt={`Progress at ${item.label}`} />
+                        <span>{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="trust-row">
@@ -630,18 +691,113 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* LOSS PATH */}
+      <section className="loss-path" id="loss-path">
+        <div className="wrap">
+          <Reveal className="section-head center">
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>
+              Why Hair Falls
+            </span>
+            <h2>From healthy hair to hair loss</h2>
+            <p>
+              Multiple triggers push hair from a healthy state toward thinning.
+              Spotting them early is the first step to reversing the slide.
+            </p>
+          </Reveal>
+          <Reveal className="loss-path-track">
+            <div className="loss-path-end start">
+              <span className="loss-path-pill good">Healthy hair</span>
+            </div>
+            <div className="loss-path-factors">
+              {lossPathFactors.map((factor) => (
+                <div className="loss-factor" key={factor.title}>
+                  <span className="loss-factor-icon">
+                    <Icon name={factor.icon} />
+                  </span>
+                  <span>{factor.title}</span>
+                </div>
+              ))}
+            </div>
+            <div className="loss-path-end end">
+              <span className="loss-path-pill bad">Hair loss</span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ANAGEN / TELOGEN */}
+      <section className="cycle-section bg-cream" id="cycle">
+        <div className="wrap">
+          <Reveal className="section-head center">
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>
+              Hair Growth Cycle
+            </span>
+            <h2>Anagen and Telogen</h2>
+            <p>
+              Healthy plans keep more follicles in the growth phase — and fewer
+              slipping into the resting, shedding phase.
+            </p>
+          </Reveal>
+          <Reveal className="cycle-layout">
+            <div className="cycle-col anagen">
+              <h3>Anagen</h3>
+              <p className="cycle-col-sub">Growth phase</p>
+              <div className="cycle-follicle growth-follicle" aria-hidden="true">
+                <span className="follicle-shaft" />
+                <span className="follicle-bulb" />
+              </div>
+              <ul className="cycle-points">
+                {anagenPoints.map((point) => (
+                  <li key={point.title}>
+                    <span className="cycle-point-icon">
+                      <Icon name={point.icon} />
+                    </span>
+                    <span>{point.title}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="cycle-ring" aria-hidden="true">
+              <span className="cycle-arrow up">Growth</span>
+              <span className="cycle-arrow down">Shedding</span>
+            </div>
+            <div className="cycle-col telogen">
+              <h3>Telogen</h3>
+              <p className="cycle-col-sub">Resting / shedding phase</p>
+              <div className="cycle-follicle shed-follicle" aria-hidden="true">
+                <span className="follicle-shaft thin" />
+                <span className="follicle-bulb raised" />
+              </div>
+              <ul className="cycle-points">
+                {telogenPoints.map((point) => (
+                  <li key={point.title}>
+                    <span className="cycle-point-icon">
+                      <Icon name={point.icon} />
+                    </span>
+                    <span>
+                      {point.title}
+                      {point.sub ? <small>{point.sub}</small> : null}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* CAUSES */}
       <section id="causes">
         <div className="wrap">
           <Reveal className="section-head center">
             <span className="eyebrow" style={{ justifyContent: 'center' }}>
-              The Six Root Causes
+              Root Factors
             </span>
-            <h2>Hair health starts from within</h2>
+            <h2>What drives hair fall</h2>
             <p>
-              Hair fall rarely has one cause. Our assessment scores you across all
-              six — so your plan treats what&apos;s actually happening, in the
-              order it matters.
+              Six interconnected factors decide whether follicles stay in growth
+              or tip into shedding — your plan addresses the ones that matter for
+              you.
             </p>
           </Reveal>
 
