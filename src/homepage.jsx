@@ -119,28 +119,14 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
 }
 
 /* ---------- DATA ---------- */
-/* Displayed top → bottom (path climbs from Healthy hair up to Hair loss) */
+/* Flowchart: Healthy hair → two columns → Hair loss */
 const lossPathLeft = [
   {
-    icon: 'dandruff',
-    title: 'Infections',
+    icon: 'dna',
+    title: 'Genetic',
     reason:
-      'Fungal or bacterial scalp issues create inflammation that interrupts the normal growth cycle.',
-    tip: 'Calming the scalp environment first makes regrowth treatments more effective.',
-  },
-  {
-    icon: 'users',
-    title: 'Lifestyle',
-    reason:
-      'Heat styling, tight hairstyles, poor sleep, and product buildup all add mechanical and chemical stress.',
-    tip: 'Small daily habit shifts protect strands while your treatment works underneath.',
-  },
-  {
-    icon: 'spray',
-    title: 'Smoking',
-    reason:
-      'Nicotine reduces scalp blood flow and starves follicles of oxygen and nutrients they need to grow.',
-    tip: 'Improving circulation support is a key part of rebuilding healthier growth conditions.',
+      'Inherited DHT sensitivity can gradually miniaturize follicles, especially at the crown and hairline.',
+    tip: 'Early assessment helps tailor treatment before density loss becomes harder to reverse.',
   },
   {
     icon: 'stress',
@@ -150,21 +136,49 @@ const lossPathLeft = [
     tip: 'Sleep, recovery, and routine coaching help calm stress-linked shedding cycles.',
   },
   {
-    icon: 'dna',
-    title: 'Genetics',
+    icon: 'nutrition',
+    title: 'Diet',
     reason:
-      'Inherited DHT sensitivity can gradually miniaturize follicles, especially at the crown and hairline.',
-    tip: 'Early assessment helps tailor treatment before density loss becomes harder to reverse.',
+      'Low protein, iron, or micronutrient intake shows up on the scalp before other body signs appear.',
+    tip: 'A nutrition plan aligned to your labs helps refill what follicles are missing.',
   },
-]
-
-const lossPathRight = [
+  {
+    icon: 'users',
+    title: 'Lifestyle',
+    reason:
+      'Heat styling, tight hairstyles, poor sleep, and product buildup all add mechanical and chemical stress.',
+    tip: 'Small daily habit shifts protect strands while your treatment works underneath.',
+  },
   {
     icon: 'heartChat',
     title: 'Menopause',
     reason:
       'Hormonal shifts around menopause can tip the balance toward thinning and wider parting.',
     tip: 'A hormone-aware plan helps stabilize shedding and support thicker-looking density.',
+  },
+]
+
+const lossPathRight = [
+  {
+    icon: 'flask',
+    title: 'Chemical',
+    reason:
+      'Harsh dyes, straighteners, and pollution irritate the scalp and weaken the follicle barrier over time.',
+    tip: 'Switch to gentler formulas and protect your scalp from daily chemical exposure.',
+  },
+  {
+    icon: 'capsule',
+    title: 'Drug',
+    reason:
+      'Certain medications can push follicles into a resting phase and trigger temporary shedding.',
+    tip: 'Review prescriptions with a clinician so your hair plan accounts for medication effects.',
+  },
+  {
+    icon: 'spray',
+    title: 'Smoking',
+    reason:
+      'Nicotine reduces scalp blood flow and starves follicles of oxygen and nutrients they need to grow.',
+    tip: 'Improving circulation support is a key part of rebuilding healthier growth conditions.',
   },
   {
     icon: 'metabolism',
@@ -174,25 +188,11 @@ const lossPathRight = [
     tip: 'Targeted actives and consistent care help support follicle strength as you age.',
   },
   {
-    icon: 'nutrition',
-    title: 'Diet',
+    icon: 'dandruff',
+    title: 'Infection',
     reason:
-      'Low protein, iron, or micronutrient intake shows up on the scalp before other body signs appear.',
-    tip: 'A nutrition plan aligned to your labs helps refill what follicles are missing.',
-  },
-  {
-    icon: 'capsule',
-    title: 'Drugs',
-    reason:
-      'Certain medications can push follicles into a resting phase and trigger temporary shedding.',
-    tip: 'Review prescriptions with a clinician so your hair plan accounts for medication effects.',
-  },
-  {
-    icon: 'flask',
-    title: 'Chemicals',
-    reason:
-      'Harsh dyes, straighteners, and pollution irritate the scalp and weaken the follicle barrier over time.',
-    tip: 'Switch to gentler formulas and protect your scalp from daily chemical exposure.',
+      'Fungal or bacterial scalp issues create inflammation that interrupts the normal growth cycle.',
+    tip: 'Calming the scalp environment first makes regrowth treatments more effective.',
   },
 ]
 
@@ -786,46 +786,51 @@ export default function HomePage() {
               Spotting them early is the first step to reversing the slide.
             </p>
           </Reveal>
-          <Reveal className="loss-map">
-            <div className="loss-map-end top">
-              <span className="loss-path-pill bad">Hair loss</span>
+          <Reveal className="loss-flow">
+            <div className="loss-flow-start">
+              <span className="loss-chip start">Healthy hair</span>
+              <span className="loss-flow-branch" aria-hidden="true" />
             </div>
 
-            <div className="loss-map-grid" aria-label="Hair fall triggers path">
-              <div className="loss-map-col">
-                {lossPathLeft.map((factor) => (
-                  <button
-                    type="button"
-                    className={`loss-node${factorPopup?.title === factor.title ? ' active' : ''}`}
-                    key={factor.title}
-                    onClick={() => setFactorPopup(factor)}
-                  >
-                    <span className="loss-node-icon">
-                      <Icon name={factor.icon} />
-                    </span>
-                    <span className="loss-node-label">{factor.title}</span>
-                  </button>
+            <div className="loss-flow-cols" aria-label="Hair fall triggers path">
+              <div className="loss-flow-col mint">
+                {lossPathLeft.map((factor, index) => (
+                  <div className="loss-flow-step" key={factor.title}>
+                    {index > 0 ? (
+                      <span className="loss-flow-arrow" aria-hidden="true" />
+                    ) : null}
+                    <button
+                      type="button"
+                      className={`loss-chip node mint${factorPopup?.title === factor.title ? ' active' : ''}`}
+                      onClick={() => setFactorPopup(factor)}
+                    >
+                      {factor.title}
+                    </button>
+                  </div>
                 ))}
               </div>
-              <div className="loss-map-col">
-                {lossPathRight.map((factor) => (
-                  <button
-                    type="button"
-                    className={`loss-node${factorPopup?.title === factor.title ? ' active' : ''}`}
-                    key={factor.title}
-                    onClick={() => setFactorPopup(factor)}
-                  >
-                    <span className="loss-node-icon">
-                      <Icon name={factor.icon} />
-                    </span>
-                    <span className="loss-node-label">{factor.title}</span>
-                  </button>
+
+              <div className="loss-flow-col peach">
+                {lossPathRight.map((factor, index) => (
+                  <div className="loss-flow-step" key={factor.title}>
+                    {index > 0 ? (
+                      <span className="loss-flow-arrow" aria-hidden="true" />
+                    ) : null}
+                    <button
+                      type="button"
+                      className={`loss-chip node peach${factorPopup?.title === factor.title ? ' active' : ''}`}
+                      onClick={() => setFactorPopup(factor)}
+                    >
+                      {factor.title}
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
 
-            <div className="loss-map-end bottom">
-              <span className="loss-path-pill good">Healthy hair</span>
+            <div className="loss-flow-end">
+              <span className="loss-flow-merge" aria-hidden="true" />
+              <span className="loss-chip end">Hair loss</span>
             </div>
           </Reveal>
         </div>
