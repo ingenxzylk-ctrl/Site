@@ -439,7 +439,7 @@ header.nav.nav-menu-open .nav-inner {
   padding: 0 0 56px;
   text-align: left;
   overflow: visible;
-  background: #ececec;
+  background: var(--forest);
 }
 
 .hero-shell {
@@ -450,9 +450,9 @@ header.nav.nav-menu-open .nav-inner {
 .hero-curve {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(340px, 1.05fr);
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 0.95fr);
   align-items: stretch;
-  min-height: min(92vh, 780px);
+  min-height: min(88vh, 740px);
   background: transparent;
   overflow: visible;
   max-width: 1280px;
@@ -574,6 +574,16 @@ header.nav.nav-menu-open .nav-inner {
   background: transparent;
 }
 
+.hero-visual-mobile {
+  display: none;
+  padding: 20px 16px 8px;
+  justify-content: center;
+}
+
+.hero-visual-desktop {
+  display: flex;
+}
+
 .hero-product {
   width: 100%;
   max-width: 540px;
@@ -656,7 +666,7 @@ header.nav.nav-menu-open .nav-inner {
 }
 
 .hero-bottle {
-  width: min(100%, 230px);
+  width: min(100%, 165px);
   height: auto;
   display: block;
   background: transparent;
@@ -671,9 +681,9 @@ header.nav.nav-menu-open .nav-inner {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 18px;
-  padding: 8px 0 8px 22px;
-  min-height: 390px;
+  gap: 14px;
+  padding: 8px 0 8px 18px;
+  min-height: 340px;
 }
 
 .hero-progress-line {
@@ -1043,16 +1053,19 @@ body.path-locked {
 .path-node-label {
   position: relative;
   z-index: 3;
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--path-ink);
   text-align: center;
-  line-height: 1.25;
-  padding: 4px 10px;
+  line-height: 1.3;
+  padding: 5px 10px;
   border-radius: 8px;
   background: var(--path-cream);
-  box-shadow: 0 0 0 4px var(--path-cream);
+  box-shadow: 0 0 0 5px var(--path-cream);
+  max-width: 108px;
+  white-space: normal;
+  margin-top: 2px;
 }
 
 .path-node:focus-visible .path-node-circle {
@@ -1383,9 +1396,10 @@ body.path-locked {
   }
 
   .path-node-label {
-    font-size: 12.5px;
-    padding: 5px 8px;
-    max-width: 88px;
+    font-size: 11.5px;
+    max-width: 96px;
+    padding: 4px 8px;
+    box-shadow: 0 0 0 6px var(--path-cream);
   }
 
   .path-endpoint-pill {
@@ -2216,22 +2230,38 @@ body.path-locked {
 .timeline-mobile {
   display: none;
   position: relative;
-  padding-left: 36px;
+  padding: 12px 0 8px;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
 .timeline-mobile::before {
   content: '';
   position: absolute;
-  left: 11px;
-  top: 6px;
-  bottom: 6px;
+  left: 50%;
+  top: 8px;
+  bottom: 8px;
   width: 2px;
+  transform: translateX(-50%);
   background: var(--forest);
 }
 
 .tlm-item {
   position: relative;
-  padding-bottom: 36px;
+  padding-bottom: 40px;
+  width: 50%;
+}
+
+.tlm-item--right {
+  margin-left: 50%;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.tlm-item--left {
+  margin-right: 50%;
+  padding-right: 28px;
+  text-align: right;
 }
 
 .tlm-item:last-child {
@@ -2240,13 +2270,20 @@ body.path-locked {
 
 .tlm-node {
   position: absolute;
-  left: -36px;
-  top: 2px;
-  width: 24px;
-  height: 24px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--gold);
   border: 3px solid var(--forest);
+}
+
+.tlm-item--right .tlm-node {
+  left: -11px;
+}
+
+.tlm-item--left .tlm-node {
+  right: -11px;
 }
 
 .tlm-item h3 {
@@ -2699,30 +2736,32 @@ footer {
 .sticky-cta {
   display: none;
   position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
   z-index: 65;
   background: var(--forest);
   color: var(--cream);
   border-radius: 999px;
-  padding: 15px 20px;
+  padding: 14px 16px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   font-weight: 700;
-  font-size: 14.5px;
+  font-size: 13px;
+  line-height: 1.3;
+  text-align: center;
   box-shadow: 0 14px 30px -10px rgba(11, 61, 46, 0.55);
   transform: translateY(120%);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.sticky-cta.show {
-  transform: translateY(0);
+.sticky-cta-text span {
+  color: var(--gold);
 }
 
-.sticky-cta span {
-  color: var(--gold);
+.sticky-cta.show {
+  transform: translateY(0);
 }
 
 /* ===================== RESPONSIVE ===================== */
@@ -2750,14 +2789,15 @@ footer {
     border-bottom-left-radius: clamp(56px, 18vw, 110px);
   }
 
-  .hero-visual {
+  .hero-visual-desktop {
     order: -1;
     width: 100%;
-    height: auto;
-    min-height: 0;
-    max-height: none;
-    padding: 88px 20px 24px;
+    padding: 88px 20px 20px;
     justify-content: center;
+  }
+
+  .hero-visual-mobile {
+    display: none;
   }
 
   .hero-product {
@@ -2809,11 +2849,33 @@ footer {
   }
 
   .nav-inner {
-    padding: 14px 20px;
+    padding: 12px 14px;
+    gap: 10px;
   }
 
   .logo {
-    font-size: 19px;
+    font-size: 17px;
+    min-width: 0;
+  }
+
+  .nav-actions {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .nav-icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-icon-btn svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  header.nav:not(.nav-scrolled):not(.nav-menu-open) .nav-menu-btn {
+    background: rgba(247, 244, 236, 0.14);
+    border: 1px solid rgba(247, 244, 236, 0.22);
   }
 
   .menu-window-inner {
@@ -2836,8 +2898,13 @@ footer {
     padding-bottom: 32px;
   }
 
-  .hero-visual {
+  .hero-visual-desktop {
     display: none;
+  }
+
+  .hero-visual-mobile {
+    display: flex;
+    padding: 8px 16px 4px;
   }
 
   .hero-copy {
@@ -2882,39 +2949,34 @@ footer {
   }
 
   .trust-row {
-    margin: -24px 16px 0;
-    gap: 10px;
-  }
-
-  .trust-chip {
-    flex: 1 1 calc(50% - 10px);
-    min-width: 140px;
-  }
-
-  .trust-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-    width: auto;
-    margin-left: 16px;
-    margin-right: 16px;
+    margin: 14px 16px 0;
+    max-width: none;
+    padding: 0;
   }
 
   .trust-chip {
+    flex: none;
+    min-width: 0;
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 14px 8px;
+    padding: 12px 4px;
     gap: 6px;
     border-radius: 14px;
+    font-size: 11px;
   }
 
   .trust-chip .num {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .trust-chip .label {
-    font-size: 10.5px;
+    font-size: 9.5px;
+    line-height: 1.25;
   }
 
   .btn {

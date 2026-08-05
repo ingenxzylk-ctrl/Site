@@ -120,73 +120,36 @@ function Icon({ name, className, strokeWidth = 1.6 }) {
   )
 }
 
+function HeroProductPanel() {
+  return (
+    <div className="hero-product">
+      <div className="hero-regrow">
+        <p className="hero-regrow-title">Regrow hair</p>
+        <span className="hero-regrow-circle">in 3–6 months.*</span>
+      </div>
+      <div className="hero-product-stage">
+        <div className="hero-bottle-wrap">
+          <p className="hero-online">
+            100% online
+            <span className="hero-online-arrow" aria-hidden="true" />
+          </p>
+          <img src={bottleImg} alt="Zylk Health hair serum bottle" className="hero-bottle" />
+        </div>
+        <div className="hero-progress">
+          <div className="hero-progress-line" aria-hidden="true" />
+          {progressImgs.map((item) => (
+            <div className="hero-progress-item" key={item.label}>
+              <img src={item.src} alt={`Progress at ${item.label}`} />
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ---------- DATA ---------- */
-const causes = [
-  {
-    icon: 'dna',
-    title: 'Hormones',
-    desc: 'DHT sensitivity can be caused by genetics, stress, poor diet, and toxins.',
-  },
-  {
-    icon: 'stress',
-    title: 'Stress',
-    desc: 'Physical or emotional stress like giving birth or a demanding job.',
-  },
-  {
-    icon: 'nutrition',
-    title: 'Nutrition',
-    desc: 'Nutrient gaps that can result from a poor diet or a compromised gut microbiome.',
-  },
-  {
-    icon: 'users',
-    title: 'Lifestyle',
-    desc: 'Refers to your surroundings, the products you use, and the foods you eat.',
-  },
-  {
-    icon: 'metabolism',
-    title: 'Metabolism',
-    desc: 'Influences how hair follicles receive nutrients from the body.',
-  },
-  {
-    icon: 'refresh',
-    title: 'Aging',
-    desc: "Aging reduces the scalp's collagen and elastin, weakening its grip on hair strands.",
-  },
-]
-
-const offers = [
-  {
-    icon: 'kit',
-    title: 'Customized Kit',
-    desc: 'Formulated around your exact scalp profile — never a generic bottle off the shelf.',
-  },
-  {
-    icon: 'doctor',
-    title: 'Doctor Review',
-    desc: 'A registered dermatologist reviews your assessment before anything ships to you.',
-  },
-  {
-    icon: 'coach',
-    title: 'Free Wellness Coach',
-    desc: 'Ongoing check-ins that keep your routine on track, at no extra cost.',
-  },
-  {
-    icon: 'nutplan',
-    title: 'Free Nutrition Plan',
-    desc: 'Diet guidance built around what your gut-hair axis actually needs to recover.',
-  },
-  {
-    icon: 'genomic',
-    title: 'Free Advanced Genomic Guidance',
-    desc: 'Understand your inherited hair-loss pattern and what it means for your plan.',
-  },
-  {
-    icon: 'consult',
-    title: 'Consultation',
-    desc: 'A one-on-one call to walk through your results and next steps, in plain language.',
-  },
-]
-
 const stagesMale = [
   { n: '1', ok: true },
   { n: '2', ok: true },
@@ -345,8 +308,7 @@ const trustItems = [
 
 const menuColumns = [
   [
-    { icon: 'dna', label: 'Root Causes', href: '#causes' },
-    { icon: 'kit', label: 'Inside Your Plan', href: '#offers' },
+    { icon: 'dna', label: 'Why Hair Falls', href: '#loss-path' },
     { icon: 'checkCircle', label: 'What To Expect', href: '#timeline' },
     { icon: 'consult', label: 'Talk To A Human', href: '#chat' },
   ],
@@ -416,7 +378,6 @@ function StarRow({ rating }) {
 
 /* ---------- HOME PAGE ---------- */
 export default function HomePage() {
-  const [openCause, setOpenCause] = useState(0)
   const [stageGender, setStageGender] = useState('male')
   const [timelineMode, setTimelineMode] = useState('male')
   const [activeFilter, setActiveFilter] = useState('all')
@@ -492,7 +453,7 @@ export default function HomePage() {
       >
         <div className="nav-inner">
           <a href="#" className="logo" onClick={closeMenu}>
-            Zylk<span className="dot" /> Health
+            Zylk Health
           </a>
 
           <div className="nav-actions">
@@ -598,7 +559,6 @@ export default function HomePage() {
         <div className="hero-shell">
           <div className="hero-curve">
             <div className="hero-copy">
-              <p className="hero-brand">Zylk Health</p>
               <span className="hero-badge">AI Scalp Assessment</span>
               <h1 className="hero-headline">
                 Why are you losing hair? <em>Find out</em> in 2 minutes.
@@ -617,35 +577,8 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-            <div className="hero-visual">
-              <div className="hero-product">
-                <div className="hero-regrow">
-                  <p className="hero-regrow-title">Regrow hair</p>
-                  <span className="hero-regrow-circle">in 3–6 months.*</span>
-                </div>
-                <div className="hero-product-stage">
-                  <div className="hero-bottle-wrap">
-                    <p className="hero-online">
-                      100% online
-                      <span className="hero-online-arrow" aria-hidden="true" />
-                    </p>
-                    <img
-                      src={bottleImg}
-                      alt="Zylk Health hair serum bottle"
-                      className="hero-bottle"
-                    />
-                  </div>
-                  <div className="hero-progress">
-                    <div className="hero-progress-line" aria-hidden="true" />
-                    {progressImgs.map((item) => (
-                      <div className="hero-progress-item" key={item.label}>
-                        <img src={item.src} alt={`Progress at ${item.label}`} />
-                        <span>{item.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+            <div className="hero-visual hero-visual-desktop">
+              <HeroProductPanel />
             </div>
           </div>
           <div className="trust-row">
@@ -660,6 +593,9 @@ export default function HomePage() {
                 </span>
               </div>
             ))}
+          </div>
+          <div className="hero-visual hero-visual-mobile">
+            <HeroProductPanel />
           </div>
         </div>
       </section>
@@ -681,90 +617,6 @@ export default function HomePage() {
           </Reveal>
           <Reveal>
             <HairGrowthCycle />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CAUSES */}
-      <section id="causes">
-        <div className="wrap">
-          <Reveal className="section-head center">
-            <span className="eyebrow" style={{ justifyContent: 'center' }}>
-              Root Factors
-            </span>
-            <h2>What drives hair fall</h2>
-            <p>
-              Six interconnected factors decide whether follicles stay in growth
-              or tip into shedding — your plan addresses the ones that matter for
-              you.
-            </p>
-          </Reveal>
-
-          <Reveal className="causes-desktop">
-            {causes.map((cause, i) => (
-              <div className="cause-card" key={cause.title}>
-                <span className="cause-index">0{i + 1}</span>
-                <div className="cause-icon">
-                  <Icon name={cause.icon} />
-                </div>
-                <h3>{cause.title}</h3>
-                <p>{cause.desc}</p>
-              </div>
-            ))}
-          </Reveal>
-
-          <div className="causes-mobile">
-            <div className="diag-path">
-              {causes.map((cause, i) => (
-                <div
-                  className={`diag-step${openCause === i ? ' open' : ''}`}
-                  key={cause.title}
-                >
-                  <div className="diag-dot">
-                    <Icon name={cause.icon} />
-                  </div>
-                  <button
-                    type="button"
-                    className="diag-step-head"
-                    onClick={() => setOpenCause(openCause === i ? -1 : i)}
-                  >
-                    <h3>{cause.title}</h3>
-                    <Icon name="chevronDown" className="diag-chevron" strokeWidth={2} />
-                  </button>
-                  <div className="diag-body">
-                    <div className="diag-body-inner">{cause.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* OFFERS */}
-      <section className="bg-cream" id="offers">
-        <div className="wrap">
-          <Reveal className="section-head center">
-            <span className="eyebrow" style={{ justifyContent: 'center' }}>
-              Inside Your Plan
-            </span>
-            <h2>What you get</h2>
-            <p>
-              Every plan is built around your assessment — reviewed by a doctor,
-              backed by a real person, at every step.
-            </p>
-          </Reveal>
-          <Reveal className="offers-grid">
-            {offers.map((offer, i) => (
-              <div className="offer-card" key={offer.title}>
-                <span className="offer-num">0{i + 1}</span>
-                <div className="offer-icon">
-                  <Icon name={offer.icon} />
-                </div>
-                <h3>{offer.title}</h3>
-                <p>{offer.desc}</p>
-              </div>
-            ))}
           </Reveal>
         </div>
       </section>
@@ -919,8 +771,8 @@ export default function HomePage() {
           </Reveal>
 
           <div className="timeline-mobile">
-            {timelineData.map((item) => (
-              <div className="tlm-item" key={item.m}>
+            {timelineData.map((item, i) => (
+              <div className={`tlm-item tlm-item--${i % 2 === 0 ? 'right' : 'left'}`} key={item.m}>
                 <div className="tlm-node" />
                 <span className="month">{item.m}</span>
                 <h3>{item.h}</h3>
@@ -1105,7 +957,7 @@ export default function HomePage() {
         className={`sticky-cta${showSticky ? ' show' : ''}`}
         id="stickyCta"
       >
-        Find your cause <span>→</span> Take the Free Assessment
+        <span className="sticky-cta-text">Find your cause <span>→</span> Take the Free Assessment</span>
       </a>
     </>
   )
